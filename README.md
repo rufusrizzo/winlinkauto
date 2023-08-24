@@ -1,5 +1,5 @@
 # winlinkauto
-Our Goal is to include config files and scripts to automate the sending/receiving of WinLink messages.  The thought is to install these on a Raspberry Pi to make things like Field Day easier.  Maybe one day a VM for everyday users to send WinLink messages more reliable.
+Our Goal is to include config files and scripts to automate the sending/receiving of WinLink messages.  The thought is to install these on a Raspberry Pi to make things like Field Day easier.  Maybe one day a VM for everyday users to send WinLink messages more reliably.
 
 The basics of these scripts are to get a list of RMS gateways and automatically connect to them.  My goals are to add tools to predict which gateways are able for you to connect to.  The other thought is to have the scripts find gateways you can reach at certain times of day.   
 
