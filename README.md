@@ -13,12 +13,13 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Collect connection logs
 - [ ] Set pass/fail based on outbox contents
 - [ ] Automate HF and VHF sending
+- [ ] Add choice for HF bands, and tuning between bands
 - [ ] Connect to good gateways first
 - [ ] Configuration setup scripts
 - [ ] Ask for antenna info, set GW bearing
 - [ ] Maybe setup Klish for the above scripts
 - [ ] Automate/Test install scripts
-- [ ] Create Pi Iamge
+- [ ] Create Pi Image
 - [ ] Create Windows VM
 - [ ] Setup APRS Digipeter/Igate in Standby mode
 - [ ] Decode heard traffic
