@@ -1,0 +1,13 @@
+rigctld -m 3087 -v -r /dev/ttyACM1 -s 19200
+$ ./ardopc/piardopc 8515 plughw:0,0 plughw:2,0
+pat http
+#Xeigu 6100
+rigctld -m 3087 -v -r /dev/ttyACM1 -s 19200
+./ardopc/piardopc 8515 plughw:2,0 plughw:2,0
+#Yaesu dx10
+rigctld -m 1042 -v -r /dev/ttyUSB0 -s 38400
+./ardopc/piardopc 8515 plughw:3,0 plughw:3,0
+#Test rigctl
+echo "F 7089000" | nc -w 1 localhost 4532
+echo "f" | nc -w 1 localhost 4532
+pat connect ax25+agwpe:///KO4CTF-10
