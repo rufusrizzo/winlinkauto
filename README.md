@@ -9,7 +9,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 
 ## Tasks
 
-- [ ] [Setup] basic structure
+- [ ] Setup basic structure
 - [ ] Collect connection logs
 - [ ] Set pass/fail based on outbox contents
 - [ ] Automate HF and VHF sending
