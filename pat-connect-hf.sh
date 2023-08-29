@@ -22,9 +22,11 @@ logdir="logs"
 [[ -z $2 ]] && num_retries=2 || num_retries=$2
 
 # Randomize our station list for fun before each run
-station_list=$(mktemp station_list.tmpXXX)
+station_list_all=$(mktemp station_list.tmpXXX)
+station_list="
 shuf $gwldir/${band}m.txt > ${station_list}
 mcnt=`wc -l $gwldir/${band}m.txt | awk '{print $1}'`
+
 
 cleanup() {
     rm ${station_list} 
@@ -49,7 +51,7 @@ station_connect() {
         then
             echo "${date} SUCCESS with ${CALL}" |tee -a ${logdir}/runlog.txt
             cleanup
-            exit 0
+            return 0
         else
             echo "${date} FAIL with ${CALL}" |tee -a ${logdir}/runlog.txt
     		((connum++))
@@ -70,5 +72,21 @@ station_connect() {
 }
 
 fails=0
+#Checking for past good GW's and setting the station list to them
+if [[ -f ${logdir}/good-gws.log && -s ${logdir}/good-gws.log ]]
+then
+        for gws in `cat ${logdir}/good-gws.log`
+                do grep $gws ${gwldir}/${band}m.txt >> ${gwldir}/gg-${band}m.txt
+        done
+        if [[ -f ${gwldir}/gg-${band}m.txt && -s ${gwldir}/gg-${band}m.txt ]]
+        then
+                echo "GWs there"
+        else
+station_list=$(mktemp station_list.tmpXXX)
+        fi
+else
+        echo "Something broke"
+fi
+
 station_connect "${band}"
 cleanup
