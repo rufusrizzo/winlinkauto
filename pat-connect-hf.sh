@@ -1,36 +1,44 @@
 #!/bin/bash
+#Help list
+#Need to add help here
+# Usage $0 <BAND> <Number of Retries>
+#
+#Gathering Band to use
+if [[ -z $1 ]] 
+then
+	echo "Popular Winlink bands, 10, 20, 30, 40, 80"
+	echo "Just enter the number."
+	read -p "Enter the band you wish to use: " band
+else
+	band=$1
+fi
+
+#Setting some variables
+gwldir="gwlists"
+cfgdir="conf"
+logdir="logs"
 
 # How many times to try each list of gateways
-num_retries=2
+[[ -z $2 ]] && num_retries=2 || num_retries=$2
 
 # Randomize our station list for fun before each run
-#station_list20=$(mktemp station_list20.tmpXXX)
-#shuf 20m.txt > ${station_list20}
-#twentymcnt=`wc -l 20m.txt | awk '{print $1}'`
-station_list40=$(mktemp station_list40.tmpXXX)
-shuf 40m.txt > ${station_list40}
-fawdymcnt=`wc -l 40m.txt | awk '{print $1}'`
+station_list=$(mktemp station_list.tmpXXX)
+shuf $gwldir/${band}m.txt > ${station_list}
+mcnt=`wc -l $gwldir/${band}m.txt | awk '{print $1}'`
 
 cleanup() {
-    rm ${station_list40} 
+    rm ${station_list} 
 }
 
 # Wont cancel if pat is trying to connect, but will stop after pat fails
 trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
 
 station_connect() {
-    if [ ${1} == "40" ]
-    then
-        station_list=${station_list40}
-    else
-        station_list=${station_list40}
-    fi
-
 	connum=1
     while read line
     do
 	echo "#####################################################"
-	echo "Connection attempt $connum of $fawdymcnt "
+	echo "Connection attempt $connum of $mcnt "
 	echo "Run number $fails "
 	echo "#####################################################"
         CALL=$(echo $line |awk '{print $11}')
@@ -39,11 +47,11 @@ station_connect() {
         RESULT=$(echo $?)
         if [ ${RESULT} = "0" ]
         then
-            echo "${date} SUCCESS with ${CALL}" |tee -a log.txt
+            echo "${date} SUCCESS with ${CALL}" |tee -a ${logdir}/runlog.txt
             cleanup
             exit 0
         else
-            echo "${date} FAIL with ${CALL}" |tee -a log.txt
+            echo "${date} FAIL with ${CALL}" |tee -a ${logdir}/runlog.txt
     		((connum++))
 		echo $fails
 		echo $connum
@@ -61,8 +69,6 @@ station_connect() {
     fi
 }
 
-#fails=0
-#station_connect "20"
 fails=0
-station_connect "40"
+station_connect "${band}"
 cleanup
