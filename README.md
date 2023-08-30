@@ -13,9 +13,10 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Add good GW check
 - [ ] Collect connection logs
 - [ ] Set pass/fail based on outbox contents
-- [ ] Automate HF and VHF sending
-- [ ] Add choice for HF bands, and tuning between bands
-- [ ] Connect to good gateways first
+- [ ] Automate HF and VHF sending for Winlink Wednesday
+- [ ] Add Weather based on gridsquare
+- [ ] Add choice for multiple HF bands
+- [ ] Add Tuning between bands
 - [ ] Configuration setup scripts
 - [ ] Ask for antenna info, set GW bearing
 - [ ] Maybe setup Klish for the above scripts
