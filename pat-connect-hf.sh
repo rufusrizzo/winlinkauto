@@ -45,10 +45,14 @@ check_pat_out() {
 pat_out=`ls -ltr /home/riley/.local/share/pat/mailbox/KF4EMZ/out/ | grep -v total | wc -l`
 if [[ $pat_out -ge 1 ]]
 then
+	echo "#####################################################"
 	echo "Found messages in the outbox"
+	echo "#####################################################"
 	return 0
 else
+	echo "#####################################################"
 	echo "Nothing to send, exiting"
+	echo "#####################################################"
 	exit 0
 fi
 }
@@ -114,7 +118,9 @@ fi
 
 station_connect "${band}"
 check_pat_out
-echo "Trying more Gateways"
+	echo "#####################################################"
+	echo "Trying more Gateways"
+	echo "#####################################################"
 		station_list="$station_list_filtered"
 station_connect "${band}"
 cleanup
