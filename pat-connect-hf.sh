@@ -1,6 +1,7 @@
 #!/bin/bash
 #Help list
 #Need to add help here
+#Maybe better option handling
 # Usage $0 <BAND> <Number of Retries> <RECV for Receive mode>
 #
 #Gathering Band to use
@@ -17,9 +18,12 @@ fi
 gwldir="gwlists"
 cfgdir="conf"
 logdir="logs"
+mycall=`pat env | grep MYCALL | awk -F "\"" '{print $2}'`
+patmailbox=`pat env | grep MAILBOX | awk -F"\"" '{print $2}'`
 
 # How many times to try each list of gateways
 [[ -z $2 ]] && num_retries=2 || num_retries=$2
+#Setting Receive mode, if it's set
 [[ -z $3 ]] && echo "######Send Mode Set" || send_mode=$3
 
 # Randomize our station list for fun before each run
@@ -42,9 +46,7 @@ trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
 
 check_pat_out() {
 [[ $send_mode == "RECV" ]] && return 0
-#Need to get the directory from PAT, and callsign
-#I'm lazy right now
-pat_out=`ls -ltr /home/riley/.local/share/pat/mailbox/KF4EMZ/out/ | grep -v total | wc -l`
+pat_out=`ls -ltr ${patmailbox}/${mycall}/out/ | grep -v total | wc -l`
 if [[ $pat_out -ge 1 ]]
 then
 	echo "#####################################################"
