@@ -30,10 +30,10 @@ shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}
 
 
 cleanup() {
-    rm ${station_list_all} 
-    rm ${station_list_good} 
-    rm ${station_list_filtered} 
-    rm ${gwldir}/gg-${band}m.txt
+    rm ${station_list_all} &> /dev/null
+    rm ${station_list_good} &> /dev/null
+    rm ${station_list_filtered} &> /dev/null
+    rm ${gwldir}/gg-${band}m.txt &> /dev/null
 }
 
 # Wont cancel if pat is trying to connect, but will stop after pat fails
