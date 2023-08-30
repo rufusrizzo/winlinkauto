@@ -17,6 +17,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Add Weather based on gridsquare
 - [ ] Add choice for multiple HF bands
 - [ ] Add Tuning between bands
+- [ ] Update GW list from HF
+- [ ] Update GW list from VHF
 - [ ] Configuration setup scripts
 - [ ] Ask for antenna info, set GW bearing
 - [ ] Maybe setup Klish for the above scripts

@@ -10,4 +10,7 @@ rigctld -m 1042 -v -r /dev/ttyUSB0 -s 38400
 #Test rigctl
 echo "F 7089000" | nc -w 1 localhost 4532
 echo "f" | nc -w 1 localhost 4532
+#pat packet
 pat connect ax25+agwpe:///KO4CTF-10
+#pat packet with a digipeter
+pat connect ax25+agwpe:///KB4OLM-5/KO4CTF-10
