@@ -10,9 +10,9 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 ## Tasks
 
 - [X] Setup basic structure
-- [ ] Add good GW check
+- [X] Add good GW check
 - [ ] Collect connection logs
-- [ ] Set pass/fail based on outbox contents
+- [X] Set pass/fail based on outbox contents, "kind of" it won't attempt if the outbox is empty
 - [ ] Automate HF and VHF sending for Winlink Wednesday
 - [ ] Add Weather based on gridsquare
 - [ ] Add choice for multiple HF bands

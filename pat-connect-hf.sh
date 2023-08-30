@@ -23,20 +23,39 @@ logdir="logs"
 
 # Randomize our station list for fun before each run
 station_list_all=$(mktemp station_list.tmpXXX)
-station_list="
-shuf $gwldir/${band}m.txt > ${station_list}
-mcnt=`wc -l $gwldir/${band}m.txt | awk '{print $1}'`
+station_list_filtered=$(mktemp station_list.tmpXXX)
+station_list_good=$(mktemp station_list.tmpXXX)
+shuf $gwldir/${band}m.txt > ${station_list_all}
+shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}
 
 
 cleanup() {
-    rm ${station_list} 
+    rm ${station_list_all} 
+    rm ${station_list_good} 
+    rm ${station_list_filtered} 
+    rm ${gwldir}/gg-${band}m.txt
 }
 
 # Wont cancel if pat is trying to connect, but will stop after pat fails
 trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
 
+check_pat_out() {
+#Need to get the directory from PAT, and callsign
+#I'm lazy right now
+pat_out=`ls -ltr /home/riley/.local/share/pat/mailbox/KF4EMZ/out/ | grep -v total | wc -l`
+if [[ $pat_out -ge 1 ]]
+then
+	echo "Found messages in the outbox"
+	return 0
+else
+	echo "Nothing to send, exiting"
+	exit 0
+fi
+}
+
 station_connect() {
 	connum=1
+	mcnt=`wc -l $station_list | awk '{print $1}'`
     while read line
     do
 	echo "#####################################################"
@@ -72,6 +91,8 @@ station_connect() {
 }
 
 fails=0
+check_pat_out
+
 #Checking for past good GW's and setting the station list to them
 if [[ -f ${logdir}/good-gws.log && -s ${logdir}/good-gws.log ]]
 then
@@ -80,13 +101,20 @@ then
         done
         if [[ -f ${gwldir}/gg-${band}m.txt && -s ${gwldir}/gg-${band}m.txt ]]
         then
-                echo "GWs there"
+                echo "Found some Previously connected GWs, trying them now"
+		cat ${gwldir}/gg-${band}m.txt > $station_list_good
+		station_list="$station_list_good"
         else
-station_list=$(mktemp station_list.tmpXXX)
+		station_list="$station_list_filtered"
         fi
 else
         echo "Something broke"
+	exit 5
 fi
 
+station_connect "${band}"
+check_pat_out
+echo "Trying more Gateways"
+		station_list="$station_list_filtered"
 station_connect "${band}"
 cleanup
