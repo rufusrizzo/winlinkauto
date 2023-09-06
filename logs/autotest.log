@@ -1,0 +1,181 @@
+Script started on 2023-08-29 23:00:12-04:00 [TERM="screen" TTY="/dev/pts/5" COLUMNS="130" LINES="67"]
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m bash pat-sender.sh 
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m cat pat-sender.sh
+[?2004l#!/bin/bash
+
+printf "KF4EMZ, Riley, Waynesboro, VA (HF)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN riley@netandnix.net
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m sleep pat-sender.sh[K[K[K[K[K[K[K[K[K[K[K[K[K10800 ; pat-connect-hf.sh 40
+[?2004lbash: pat-connect-hf.sh: command not found
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m ./pat-connect-hf.sh 40
+[?2004l#####################################################
+Found messages in the outbox
+#####################################################
+Found some Previously connected GWs, trying them now
+#####################################################
+Connection attempt 1 of 2 
+Run number 0 
+#####################################################
+2023/08/30 08:03:20 X6100 ready. Dial frequency is 7.089.00 MHz.
+2023/08/30 08:03:21 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/08/30 08:03:21 QSY ardop: 7088
+2023/08/30 08:03:24 Connecting to AJ4GU (ardop)...
+2023/08/30 08:03:36 Connected to AJ4GU (ardop)
+RMS Trimode 1.3.51.0
+KF4EMZ has 107 daily minutes remaining with AJ4GU (EM83AL)
+{SFI = 142 On 2023-08-30 09:00 UTC}
+[WL2K-5.0-B2FWIHJM$]
+;PQ: 31022564
+CMS via AJ4GU >
+>FC EM K53XS2ETZV56 291 247 0
+Sending checksum 8B
+FS Y
+Remote accepted K53XS2ETZV56
+Transmitting [Winlink Wednesday Check-In] [offset 0]
+Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In:  89%Winlink Wednesday Check-In: 100%
+FF
+>FQ
+2023/08/30 08:05:55 Disconnected.
+2023/08/30 08:05:56 QSX ardop: 7089.000
+2023-08-30_08:03:20 SUCCESS with ardop:///AJ4GU?bw=500MAX&freq=7088
+#####################################################
+Nothing to send, exiting
+#####################################################
+rm: cannot remove 'station_list.tmpSTO': No such file or directory
+rm: cannot remove 'station_list.tmpivg': No such file or directory
+rm: cannot remove 'station_list.tmpKOW': No such file or directory
+rm: cannot remove 'gwlists/gg-40m.txt': No such file or directory
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m file /dev/null
+[?2004l/dev/null: character special (1/3)
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m file /dev/null./pat-connect-hf.sh 40[K[K[Kv./pat-connect-hf.shi./pat-connect-hf.sh ./pat-connect-hf.sh
+[?2004l[?1049h[?1h=[1;67r[23m[24m[0m[H[J[?25l[67;1H"./pat-connect-hf.sh" 127 lines, 3643 bytes[1;1H#!/bin/bash
+#Help list
+#Need to add help here
+# Usage $0 <BAND> <Number of Retries>
+#
+#Gathering Band to use
+if [[ -z $1 ]]
+then[9;9Hecho "Popular Winlink bands, 10, 20, 30, 40, 80"[10;9Hecho "Just enter the number."[11;9Hread -p "Enter the band you wish to use: " band
+else[13;9Hband=$1
+fi
+
+#Setting some variables
+gwldir="gwlists"
+cfgdir="conf"
+logdir="logs"
+
+# How many times to try each list of gateways
+[[ -z $2 ]] && num_retries=2 || num_retries=$2
+
+# Randomize our station list for fun before each run
+station_list_all=$(mktemp station_list.tmpXXX)
+station_list_filtered=$(mktemp station_list.tmpXXX)
+station_list_good=$(mktemp station_list.tmpXXX)
+shuf $gwldir/${band}m.txt > ${station_list_all}
+shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}
+
+
+cleanup() {
+    rm ${station_list_all}
+    rm ${station_list_good}
+    rm ${station_list_filtered}
+    rm ${gwldir}/gg-${band}m.txt
+}
+
+# Wont cancel if pat is trying to connect, but will stop after pat fails
+trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
+
+check_pat_out() {
+#Need to get the directory from PAT, and callsign
+#I'm lazy right now
+pat_out=`ls -ltr /home/riley/.local/share/pat/mailbox/KF4EMZ/out/ | grep -v total | wc -l`
+if [[ $pat_out -ge 1 ]]
+then[48;9Hecho "#####################################################"[49;9Hecho "Found messages in the outbox"[50;9Hecho "#####################################################"[51;9Hreturn 0
+else[53;9Hecho "#####################################################"[54;9Hecho "Nothing to send, exiting"[55;9Hecho "#####################################################"[56;9Hcleanup[57;9Hexit 0
+fi
+}
+
+station_connect() {[62;9Hconnum=1[63;9Hmcnt=`wc -l $station_list | awk '{print $1}'`
+    while read line
+    do[66;9Hecho "#####################################################"[1;1H[34h[?25h
+
+
+
+
+
+
+[9;8H[10;8H[11;8H
+[13;8H
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[27C[?25l[1;66r[66;1H
+[1;67r[32;28Hriley@gopi-old:~/git/winlinkauto $ ./pat-connect-hf.sh 40
+#####################################################
+Found messages in the outbox[34;29H[K[35;1H#####################################################
+Found some Previously connected GWs, trying them now
+#####################################################
+Connection attempt 1 of 2[38;26H[K[39;1HRun number 0[39;14H[K[40;1H#####################################################
+2023/08/30 08:03:20 X6100 ready. Dial frequency is 7.089.00 MHz.
+2023/08/30 08:03:21 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/08/30 08:03:21 QSY ardop: 7088
+2023/08/30 08:03:24 Connecting to AJ4GU (ardop)...[44;51H[K[45;1H2023/08/30 08:03:36 Connected to AJ4GU (ardop)
+RMS Trimode 1.3.51.0
+KF4EMZ has 107 daily minutes remaining with AJ4GU (EM83AL)[47;59H[K[48;1H{SFI = 142 On 2023-08-30 09:00 UTC}[48;37H[K[49;1H[WL2K-5.0-B2FWIHJM$][49;21H[K[50;1H;PQ: 31022564[50;14H[K[51;1HCMS via AJ4GU >
+>FC EM K53XS2ETZV56 291 247 0[52;30H[K[53;1HSending checksum 8B[53;20H[K[54;1HFS Y[54;9H[K[55;1HRemote accepted K53XS2ETZV56
+Transmitting [Winlink Wednesday Check-In] [offset 0]
+Winlink Wednesday Check-In: 100%
+FF
+>FQ
+2023/08/30 08:05:55 Disconnected.
+2023/08/30 08:05:56 QSX ardop: 7089.000
+2023-08-30_08:03:20 SUCCESS with ardop:///AJ4GU?bw=500MAX&freq=7088
+#####################################################
+Nothing to send, exiting
+##############[65;54H[K[67;1H[K[66;1H[34h[?25h[?25l
+34 fewer lines; before #1  3 seconds ago[32;28H[K[33;1H    rm ${station_list_good} [33;29H[K[34;1H    rm ${station_list_filtered}
+    rm ${gwldir}/gg-${band}m.txt[35;33H[K[36;1H}[36;2H[K[37;1H[K[38;1H# Wont cancel if pat is trying to connect, but will stop after pat fails
+trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT[40;1H[K[41;1Hcheck_pat_out() {[41;18H[K[42;1H#Need to get the directory from PAT, and callsign[42;50H[K[43;1H#I'm lazy right now[43;21H[K[44;1Hpat_out=`ls -ltr /home/riley/.local/share/pat/mailbox/KF4EMZ/out/ | grep -v total | wc -l`
+if [[ $pat_out -ge 1 ]][45;24H[K[46;1Hthen[46;5H[K[47;1H        echo "#####################################################"
+        echo "Found messages in the outbox"
+        echo "#####################################################"
+        return 0
+else[51;5H[K[52;1H        echo "#####################################################"
+        echo "Nothing to send, exiting"
+        echo "#####################################################"
+        cleanup[55;17H[K[56;1H        exit 0[56;15H[K[57;1Hf[57;3H[K[58;1H}[58;2H[K[59;1H[K[60;1Hstation_connect() {[60;21H[K[61;1H        connum=1[61;17H[K[62;1H        mcnt=`wc -l $station_list | awk '{print $1}'`[62;54H[K[63;1H    while read line[63;20H[K[64;1H    do[64;7H[K[65;1H        echo "[39C##############"[66;9Hecho "Connection attempt $connum of $mcnt "[32;27H[34h[?25h [?25l&[34h[?25h[?25l>[34h[?25h[?25l [34h[?25h[?25l/[34h[?25h[?25ld[34h[?25h[?25le[34h[?25h[?25lv[34h[?25h[?25l/[34h[?25h[?25ln[34h[?25h[?25lu[34h[?25h[?25ll[34h[?25h[?25ll[34h[?25h[33;28H [?25l&> /dev/null[34h[?25h[34;32H [?25l&> /dev/null[34h[?25h[35;32Ht[?25l&> /dev/null[34h[?25ht[?25l &> /dev/null[35;34H[34h[?25h[?25l[67;1H[K[67;1H:[34h[?25hwq[?25l"./pat-connect-hf.sh" 127 lines, 3692 bytes written
+[?1l>[34h[?25h[?1049l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m station_list_all=$(mktemp station_list.tmpXXX)
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m station_list_filtered=$(mktemp station_list.tmpXXX)
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m station_list_good=$(mktemp station_list.tmpXXX)
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_all} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_good} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_filtered} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${gwldir}/gg-${band}m.txt &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_all} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_good} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_filtered} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${gwldir}/gg-${band}m.txt &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_all} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_good} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${station_list_filtered} &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m     rm ${gwldir}/gg-${band}m.txt &> /dev/null
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m exit
+[?2004lexit
+
+Script done on 2023-08-30 08:10:06-04:00 [COMMAND_EXIT_CODE="1"]

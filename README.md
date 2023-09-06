@@ -13,7 +13,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [X] Setup basic structure
 - [X] Add good GW check
 - [X] Set pass/fail based on outbox contents, "kind of" it won't attempt if the outbox is empty
-- [ ] Collect connection logs
+- [X] Collect connection logs
+- [ ] Generate Good GWs, remove dupe callsigns
 - [ ] Build good GW list based on previous connections, add option to skip Good GWs
 - [ ] Configuration setup scripts
 - [ ] Create Pi Image
@@ -24,6 +25,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 ### Features
 
 - [ ] Add P2P scripts
+- [ ] Look at good connections, gather bearing and distance
 - [ ] Ask for antenna info, set GW bearing
 - [ ] Web configuration tool
 - [ ] Maybe setup Klish for the above scripts

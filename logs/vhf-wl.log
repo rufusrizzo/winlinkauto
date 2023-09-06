@@ -1,0 +1,36 @@
+riley@gopi-old:~/git/winlinkauto $ pat connect ax25+agwpe:///KO4CTF-10
+2023/09/06 07:29:40 Unable to get frequency from rig X6100: dial tcp [::1]:4532: connect: connection refused.
+2023/09/06 07:29:41 AGWPE TNC (2005.127) initialized
+2023/09/06 07:29:41 Connecting to KO4CTF-10 (ax25+agwpe)...
+2023/09/06 07:29:49 Connected to KO4CTF-10 (AX.25)
+KO4CTF-10 Augusta County VHF Gateway
+[WL2K-5.0-B2FWIHJM$]
+;PQ: 05952659
+CMS via KO4CTF >
+>FC EM OQ2UOMYDHP34 262 230 0
+Sending checksum 7A
+;PM: KF4EMZ J8O8ALP7PPKP 970 KN4LQN@winlink.org Winlink Wednesday Net Confirmation (Episode #364)
+;PM: KF4EMZ 3XTTYJKNR3T8 1063 KN4LQN@winlink.org Winlink Wednesday Roster Published (30 August 2023, Episode #364)
+;PM: KF4EMZ Q8IN2ECW3E84 2411 KN4LQN@winlink.org Winlink Wednesday Reminder (#365)
+FS Y
+Remote accepted OQ2UOMYDHP34
+Transmitting [Winlink Wednesday Check-In] [offset 0]
+Winlink Wednesday Check-In: 100%
+FC EM J8O8ALP7PPKP 2030 970 0
+FC EM 3XTTYJKNR3T8 2255 1063 0
+FC EM Q8IN2ECW3E84 5492 2411 0
+F> 92
+3 proposal(s) received
+Accepting J8O8ALP7PPKP
+Accepting 3XTTYJKNR3T8
+Accepting Q8IN2ECW3E84
+Receiving [Winlink Wednesday Net Confirmation (Episode #364)] [offset 0]
+Winlink Wednesday Net Confirmation (Episode #364): 100%
+Receiving [Winlink Wednesday Roster Published (30 August 2023, Episode #364)] [offset 0]
+Winlink Wednesday Roster Published (30 August 2023, Episode #364): 100%
+Receiving [Winlink Wednesday Reminder (#365)] [offset 0]
+Winlink Wednesday Reminder (#365): 100%
+>FF
+FQ
+2023/09/06 07:31:22 Disconnected.
+

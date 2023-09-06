@@ -20,6 +20,8 @@ cfgdir="conf"
 logdir="logs"
 mycall=`pat env | grep MYCALL | awk -F "\"" '{print $2}'`
 patmailbox=`pat env | grep MAILBOX | awk -F"\"" '{print $2}'`
+outboxnum=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
+
 
 # How many times to try each list of gateways
 [[ -z $2 ]] && num_retries=2 || num_retries=$2
@@ -35,14 +37,32 @@ shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}
 
 
 cleanup() {
-    rm ${station_list_all} &> /dev/null
-    rm ${station_list_good} &> /dev/null
-    rm ${station_list_filtered} &> /dev/null
+    rm station_list.tmp* &> /dev/null
     rm ${gwldir}/gg-${band}m.txt &> /dev/null
+    rm ${logdir}/*-connectlog-*.log &> /dev/null
 }
 
 # Wont cancel if pat is trying to connect, but will stop after pat fails
 trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
+parser() {
+LOGFILE="${logdir}/${GWCALL}-connectlog-${date}.log"
+CONNFAILREASON=`grep -i "nable to establish connection to remote" $LOGFILE  | awk -F":" '{print $4}'`
+CONNFAILED=`grep -i "nable to establish connection to remote" $LOGFILE  | wc -l`
+CONNDATE=`grep "Connected" $LOGFILE | awk '{print $1}'`
+CONNTIME=`grep "Connected" $LOGFILE | awk '{print $2}'`
+CONNGW=`grep "Connected" $LOGFILE | awk '{print $5}'`
+CONNPROTO=`grep "Connected" $LOGFILE | awk -F"\(|\)" '{print $2}'`
+COONNGWLOC=`grep "daily minutes" $LOGFILE | awk -F"\(|\)" '{print $2}'`
+CONNXMIT=`grep "Transmitting" $LOGFILE | wc -l`
+CONNRCVD=`grep "Receiving" $LOGFILE | wc -l`
+CONNXMITALL=`grep -A 1 "Transmitting" $LOGFILE | grep -v "Transmitting" | grep 100 | wc -l`
+CONNRCVDALL=`grep -A 1 "Receiving" $LOGFILE | grep -v "Receiving" | grep 100 | wc -l`
+ECONNDATE=`grep "QSX" $LOGFILE | awk '{print $1}'`
+ECONNTIME=`grep "QSX" $LOGFILE | awk '{print $2}'`
+ENDOUTBOXNUM=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
+echo "$CONNDATE|$CONNTIME|$CONNPROTO|$CONNGW|$GWGRID|$GWPROTO|$GWSPD|$GWFREQ|$COONNGWLOC|$CONNXMIT|$CONNXMITALL|$CONNRCVD|$CONNRCVDALL|$ECONNDATE|$ECONNTIME|$outboxnum|$ENDOUTBOXNUM|$CONNFAILREASON|$CONNFAILED" >> ${logdir}/pat_connect-summ.log
+
+}
 
 check_pat_out() {
 [[ $send_mode == "RECV" ]] && return 0
@@ -73,9 +93,16 @@ station_connect() {
 	echo "Run number $runnum "
 	echo "#####################################################"
         CALL=$(echo $line |awk '{print $11}')
+	GWCALL=$(echo $line |awk '{print $1}')
+	GWGRID=$(echo $line |awk '{print $2}')
+	GWPROTO=$(echo $line |awk '{print $5}')
+	GWSPD=$(echo $line |awk '{print $6}')
+	GWFREQ=$(echo $line |awk '{print $7}')
         date=$(date +%F"_"%H":"%M":"%S)
-        pat connect ${CALL}
-        RESULT=$(echo $?)
+        pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log
+        RESULT=`tail -1 ${logdir}/pat_connect-summ.log | awk -F "|" '{print $NF}'`
+	#Parsing the connection log
+	parser
         if [ ${RESULT} = "0" ]
         then
             echo "${date} SUCCESS with ${CALL}" |tee -a ${logdir}/runlog.txt
@@ -119,6 +146,7 @@ then
         fi
 	#Connecting to good gateways	
 	station_connect "${band}"
+	fails=0
 else
         echo "No good Gateways"
 	sleep 2
