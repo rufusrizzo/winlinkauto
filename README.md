@@ -23,6 +23,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 ### Features
 
 - [ ] Ask for antenna info, set GW bearing
+- [ ] Web configuration tool
 - [ ] Maybe setup Klish for the above scripts
 - [ ] Radio detection when using two radios
 - [ ] Automate HF and VHF sending for Winlink Wednesday
