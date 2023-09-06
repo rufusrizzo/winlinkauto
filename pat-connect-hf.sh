@@ -67,9 +67,10 @@ station_connect() {
 	mcnt=`wc -l $station_list | awk '{print $1}'`
     while read line
     do
+	let runnum=$fails+1
 	echo "#####################################################"
 	echo "Connection attempt $connum of $mcnt "
-	echo "Run number $fails "
+	echo "Run number $runnum "
 	echo "#####################################################"
         CALL=$(echo $line |awk '{print $11}')
         date=$(date +%F"_"%H":"%M":"%S)
@@ -83,8 +84,6 @@ station_connect() {
         else
             echo "${date} FAIL with ${CALL}" |tee -a ${logdir}/runlog.txt
     		((connum++))
-		echo $fails
-		echo $connum
         fi
     #Checking pat outbox
     check_pat_out
