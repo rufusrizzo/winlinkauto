@@ -19,6 +19,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Create Pi Image
 - [ ] Create Windows VM
 - [ ] Automate/Test install scripts
+- [ ] Add feature to restart apps if USB disconnect is detected
 
 ### Features
 
