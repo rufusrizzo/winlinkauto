@@ -1,4 +1,5 @@
 rigctld -m 3087 -v -r /dev/ttyACM1 -s 19200
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
 $ ./ardopc/piardopc 8515 plughw:0,0 plughw:2,0
 pat http
 #Xeigu 6100

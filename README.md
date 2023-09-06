@@ -8,24 +8,31 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 
 
 ## Tasks
+### Rollout for testing
 
 - [X] Setup basic structure
 - [X] Add good GW check
-- [ ] Collect connection logs
 - [X] Set pass/fail based on outbox contents, "kind of" it won't attempt if the outbox is empty
+- [ ] Collect connection logs
+- [ ] Build good GW list based on previous connections, add option to skip Good GWs
+- [ ] Configuration setup scripts
+- [ ] Create Pi Image
+- [ ] Create Windows VM
+- [ ] Automate/Test install scripts
+
+### Features
+
+- [ ] Ask for antenna info, set GW bearing
+- [ ] Maybe setup Klish for the above scripts
+- [ ] Radio detection when using two radios
 - [ ] Automate HF and VHF sending for Winlink Wednesday
 - [ ] Add Weather based on gridsquare
 - [ ] Add choice for multiple HF bands
 - [ ] Add Tuning between bands
 - [ ] Update GW list from HF
 - [ ] Update GW list from VHF
-- [ ] Configuration setup scripts
-- [ ] Ask for antenna info, set GW bearing
-- [ ] Maybe setup Klish for the above scripts
-- [ ] Automate/Test install scripts
-- [ ] Create Pi Image
-- [ ] Create Windows VM
 - [ ] Setup APRS Digipeter/Igate in Standby mode
+- [ ] Read Direwolf log for VHF to collect heard stations
 - [ ] Decode heard traffic
 - [ ] Setup basic GW connection test
 - [ ] Add VARA and VARA FM

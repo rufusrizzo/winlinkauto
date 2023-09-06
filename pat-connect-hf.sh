@@ -118,12 +118,13 @@ then
         else
 		station_list="$station_list_filtered"
         fi
+	#Connecting to good gateways	
+	station_connect "${band}"
 else
-        echo "Something broke"
-	exit 5
+        echo "No good Gateways"
+	sleep 2
 fi
 
-station_connect "${band}"
 check_pat_out
 	echo "#####################################################"
 	echo "Trying more Gateways"
