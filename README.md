@@ -44,4 +44,5 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Setup basic GW connection test
 - [ ] Add VARA and VARA FM
 - [ ] Detect VARA or ARDOP heard traffic
+- [ ] Get signal strength from the radio during connection
 
