@@ -46,8 +46,9 @@ cleanup() {
 trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
 parser() {
 LOGFILE="${logdir}/${GWCALL}-connectlog-${date}.log"
-CONNFAILREASON=`grep -i "nable to establish connection to remote" $LOGFILE  | awk -F":" '{print $4}'`
-CONNFAILED=`grep -i "nable to establish connection to remote" $LOGFILE  | wc -l`
+CONNFAILREASON=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | awk -F":" '{print $4}'`
+CONNFAILED=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | wc -l`
+[[ $CONNFAILED -ge 1 ]] || cp $LOGFILE ${logdir}/good-$date.log
 CONNDATE=`grep "Connected" $LOGFILE | awk '{print $1}'`
 CONNTIME=`grep "Connected" $LOGFILE | awk '{print $2}'`
 CONNGW=`grep "Connected" $LOGFILE | awk '{print $5}'`
@@ -60,7 +61,7 @@ CONNRCVDALL=`grep -A 1 "Receiving" $LOGFILE | grep -v "Receiving" | grep 100 | w
 ECONNDATE=`grep "QSX" $LOGFILE | awk '{print $1}'`
 ECONNTIME=`grep "QSX" $LOGFILE | awk '{print $2}'`
 ENDOUTBOXNUM=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
-echo "$CONNDATE|$CONNTIME|$CONNPROTO|$CONNGW|$GWGRID|$GWPROTO|$GWSPD|$GWFREQ|$COONNGWLOC|$CONNXMIT|$CONNXMITALL|$CONNRCVD|$CONNRCVDALL|$ECONNDATE|$ECONNTIME|$outboxnum|$ENDOUTBOXNUM|$CONNFAILREASON|$CONNFAILED" >> ${logdir}/pat_connect-summ.log
+echo "$CONNDATE|$CONNTIME|$CONNPROTO|$CONNGW|$GWGRID|$GWDIST|$GWBEAR|$GWPROTO|$GWSPD|$GWFREQ|$COONNGWLOC|$CONNXMIT|$CONNXMITALL|$CONNRCVD|$CONNRCVDALL|$ECONNDATE|$ECONNTIME|$outboxnum|$ENDOUTBOXNUM|$CONNFAILREASON|$CONNFAILED" >> ${logdir}/pat_connect-summ.log
 
 }
 
@@ -95,19 +96,19 @@ station_connect() {
         CALL=$(echo $line |awk '{print $11}')
 	GWCALL=$(echo $line |awk '{print $1}')
 	GWGRID=$(echo $line |awk '{print $2}')
+	GWDIST=$(echo $line |awk '{print $3}')
+	GWBEAR=$(echo $line |awk '{print $4}')
 	GWPROTO=$(echo $line |awk '{print $5}')
 	GWSPD=$(echo $line |awk '{print $6}')
 	GWFREQ=$(echo $line |awk '{print $7}')
         date=$(date +%F"_"%H":"%M":"%S)
         pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log
-        RESULT=`tail -1 ${logdir}/pat_connect-summ.log | awk -F "|" '{print $NF}'`
 	#Parsing the connection log
 	parser
+        RESULT=`tail -1 ${logdir}/pat_connect-summ.log | awk -F "|" '{print $NF}'`
         if [ ${RESULT} = "0" ]
         then
             echo "${date} SUCCESS with ${CALL}" |tee -a ${logdir}/runlog.txt
-            cleanup
-            return 0
         else
             echo "${date} FAIL with ${CALL}" |tee -a ${logdir}/runlog.txt
     		((connum++))
