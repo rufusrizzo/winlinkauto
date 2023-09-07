@@ -25,6 +25,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 ### Features
 
 - [ ] Add P2P scripts
+- [ ] Need to rank the Good GWs based on successful sends
+- [ ] Need to rank the Good GWs based on successful send times and the current time
 - [ ] Look at good connections, gather bearing and distance
 - [ ] Ask for antenna info, set GW bearing
 - [ ] Web configuration tool
