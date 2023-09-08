@@ -132,9 +132,9 @@ fails=0
 check_pat_out
 
 #Checking for past good GW's and setting the station list to them
-if [[ -f ${logdir}/good-gws.log && -s ${logdir}/good-gws.log ]]
+if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt ]]
 then
-        for gws in `cat ${logdir}/good-gws.log`
+        for gws in `cat ${gwldir}/good-gws.txt`
                 do grep $gws ${gwldir}/${band}m.txt >> ${gwldir}/gg-${band}m.txt
         done
         if [[ -f ${gwldir}/gg-${band}m.txt && -s ${gwldir}/gg-${band}m.txt ]]
