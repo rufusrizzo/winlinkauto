@@ -7,7 +7,7 @@
 if [[ $1 == "help" || $1 == "--help" || $1 == "-help" || $1 == "-h" ]] 
 	then
 		echo
-		echo "Usage: $0 <Your Name> <Your City>"
+		echo "Usage: $0 <Your Name> <Your City> <NOTUNE, if you want to disable tuning betwenn bands>"
 		echo
 		exit
 fi
@@ -47,6 +47,8 @@ cfgdir="conf"
 logdir="logs"
 mycall=`pat env | grep MYCALL | awk -F "\"" '{print $2}'`
 patmailbox=`pat env | grep MAILBOX | awk -F"\"" '{print $2}'`
+radfreq=`echo "f" | nc -w 1 localhost 4532`
+LASTFREQ="${radfreq:0:2}"
 check_pat_out() {
 	[[ $send_mode == "RECV" ]] && return 0
 	pat_out=`ls -ltr ${patmailbox}/${mycall}/out/ | grep -v total | wc -l`
@@ -73,6 +75,22 @@ for CALL in `cat  $infile | egrep "Primary|Alternate" | grep -v "Messages" | awk
 	FREQ=`grep $CALL  $infile | egrep "Primary|Alternate" | grep -v "Messages" | awk '{print $3}'`
 	SPEED=`grep $CALL  $infile | egrep "Primary|Alternate" | grep -v "Messages" | awk '{print $4}'`
 	STYPE=`grep $CALL  $infile | egrep "Primary|Alternate" | grep -v "Messages" | awk '{print $1}'`
+	#Tuning if the band is different
+	if [[ ${FREQ:0:2} != $LASTFREQ && $3 != "NOTUNE" ]]
+	then
+		 echo 
+		 echo "Tuning after band change"
+		 echo 
+		 echo "F ${FREQ}000" | nc -w 1 localhost 4532
+		 sleep 1
+		 echo "G TUNE" | nc -w 1 localhost 4532
+		 sleep 15
+	 else
+		 echo 
+		 echo "Same Band, not tuning"
+		 echo
+	fi
+
 	#Generating a GW List
 	if [[ $SPEED = "2000/500" || $SPEED = "500/2000" ]]
 	then
@@ -84,11 +102,12 @@ for CALL in `cat  $infile | egrep "Primary|Alternate" | grep -v "Messages" | awk
 
 	fi
 	#Generating the messages
-	printf "$mycall, $name, $location (HF-P2P)" | pat compose --from $mycall --subject "Winlink Wednesday Check-In" $CALL 
+	printf "$mycall, $name, $location (HF-P2P)" | pat compose --p2p-only --from $mycall --subject "Winlink Wednesday Check-In" $CALL 
 	echo "#######################################"
 	echo "Sending P2P Message to $CALL"
 	echo "#######################################"
 	echo
+	LASTFREQ="${FREQ:0:2}"
 	./pat-connect-hf.sh p2p 3
 	check_pat_out
 
