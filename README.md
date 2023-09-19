@@ -21,10 +21,12 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Create Windows VM
 - [ ] Automate/Test install scripts
 - [ ] Add feature to restart apps if USB disconnect is detected
+- [ ] Add Help/usage to all scripts
 
 ### Features
 
 - [x] Add P2P scripts
+- [ ] Add P2P scripts, none Winlink Wed
 - [ ] Need to rank the Good GWs based on successful sends
 - [ ] Need to rank the Good GWs based on successful send times and the current time
 - [ ] Look at good connections, gather bearing and distance
@@ -36,6 +38,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Add Weather based on gridsquare
 - [ ] Add choice for multiple HF bands
 - [ ] Add Tuning between bands
+- [x] Add Tuning between bands, p2p
 - [ ] Update GW list from HF
 - [ ] Update GW list from VHF
 - [ ] Setup APRS Digipeter/Igate in Standby mode
