@@ -1,33 +1,21 @@
-In pat-connect-hf.sh Change this, or it won't send"
-pat_out=`ls -ltr /home/riley/.local/share/pat/mailbox/KF4EMZ/out/ | grep -v total | wc -l`
 
-pat-sender.sh Usage
-riley@gopi-old:~/git/winlinkauto $ ./pat-sender.sh y Riley "Waynesboro, VA" 
-Message posted
-riley@gopi-old:~/git/winlinkauto $ ./pat-sender.sh y Riley "Waynesboro, VA" riley@netandnix.net
-Message posted
-riley@gopi-old:~/git/winlinkauto $ ./pat-sender.sh y
-Enter the name you wish to use: Riley
-Location example: Waynesboro, VA
-Enter the location you wish to use: Waynesboro, VA
-Message posted
-riley@gopi-old:~/git/winlinkauto $ ./pat-sender.sh n
-Enter the Subject you wish to use: Test
-Enter the message you wish to use: Test-msg
-Message posted
-riley@gopi-old:~/git/winlinkauto $ ./pat-sender.sh n Test Test-msg-2 riley@netandnix.net
-Message posted
-riley@gopi-old:~/git/winlinkauto $ ./pat-sender.sh y Riley "Waynesboro, VA"
-Message posted
-riley@gopi-old:~/git/winlinkauto $
+Edit and run this file:
+examples/hf-send-wl.sh
+
+For P2p
+./p2p-connect-wlw.sh RileyC "Waynesboro, VA"
+
+It needs this file, but it should be included.
+If you have Winlinkmessages  it in your PAT inbox, it will generate the file
+riley@gopi-old:~/git/winlinkauto $ cat gwlists/p2p-msg.txt
+   Primary      KN4LQN    3582       2000/500    David Elkins       Chesterfield, VA
+   Alternate*   W4RJG     7111       500         Rory Griffin       Halifax, VA
+   Alternate    KE4KEW    3565       2000/500    Martin Krupinski   Augusta, VA
+   Alternate    KK4CSK    3576       2000/500    Jesse Bryant       Valdese, NC
+   Alternate*   K0RVW     10143      2000/500    Ken van Wyk        Fairfax, VA
 
 
-Generate a staion list
-pat-gen-stationlist.sh
 
-pat connect is only using the filtered list, and I'm not with the filtering.
-cp $GWDIR/20m.txt $GWDIR/20m-filtered.txt
-cp $GWDIR/40m.txt $GWDIR/40m-filtered.txt
 
 Set good GW call signs here, when it's running on a band, it will only pull good GWs from that band
 riley@gopi-old:~/git/winlinkauto $ cat logs/good-gws.log
