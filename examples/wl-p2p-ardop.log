@@ -1,0 +1,520 @@
+Script started on 2023-09-13 08:11:00-04:00 [TERM="screen" TTY="/dev/pts/5" COLUMNS="128" LINES="63"]
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "ardop:///VK3DPW?bw=2000MAX&freq=7183.5"
+[?2004lardop:///VK3DPW?bw=2000MAX&freq=7183.5
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m cat pat-sender.sh 
+[?2004l#!/bin/bash
+mycall=`pat env | grep MYCALL | awk -F "\"" '{print $2}'`
+[[ -z $1 ]] && wlw=n || wlw=$1
+
+if [[ -z $2 && $wlw == "y" ]] 
+then
+        read -p "Enter the name you wish to use: " name
+else
+        name=$2
+fi
+if [[ -z $3 && $wlw == "y" ]] 
+then
+	echo "Location example: Waynesboro, VA"
+        read -p "Enter the location you wish to use: " location
+else
+        location=$3
+fi
+if [[ -z $2 && $wlw == "n" ]] 
+then
+        read -p "Enter the Subject you wish to use: " subject
+else
+        subject=$2
+fi
+if [[ -z $3 && $wlw == "n" ]] 
+then
+        read -p "Enter the message you wish to use: " message
+else
+        message=$3
+fi
+
+[[ -z $4 ]] || second_addr=$4
+
+
+
+if [[ $wlw == "y" ]]
+then
+	printf "$mycall, $name, $location (HF)" | pat compose --from $mycall --subject "Winlink Wednesday Check-In" KN4LQN "$second_addr"
+exit
+fi
+
+if [[ $wlw == "n" ]]
+then
+	printf "$message `date`" | pat compose --from $mycall --subject "$subject" $mycall "$second_addr"
+exit
+fi
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, [K Waynesboro, VA (HF-P2P)" | pat com^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat compose --help
+[?2004lcompose - Compose a new message.
+
+Usage:
+  compose [options]
+	If no options are passed, composes interactively.
+	If options are passed, reads message from stdin similar to mail(1).
+
+Options:
+   --subject, -s     Subject
+   --attachment , -a Attachment path (may be repeated)
+   --cc, -c          CC Address(es) (may be repeated)
+   --p2p-only        Send over peer to peer links only (avoid CMS)
+                     Recipient address (may be repeated)
+   --from, -r        Address to send from. Default is your call from config or --mycall, but can be specified to use tactical addresses.
+
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN --p2p-only
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m cat pat-connect-hf.sh 
+[?2004l#!/bin/bash
+#Help list
+#Need to add help here
+#Maybe better option handling
+# Usage $0 <BAND> <Number of Retries> <RECV for Receive mode>
+#
+#Gathering Band to use
+if [[ -z $1 ]] 
+then
+	echo "Popular Winlink bands, 10, 20, 30, 40, 80"
+	echo "Just enter the number."
+	read -p "Enter the band you wish to use: " band
+else
+	band=$1
+fi
+
+#Setting some variables
+gwldir="gwlists"
+cfgdir="conf"
+logdir="logs"
+mycall=`pat env | grep MYCALL | awk -F "\"" '{print $2}'`
+patmailbox=`pat env | grep MAILBOX | awk -F"\"" '{print $2}'`
+outboxnum=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
+
+
+# How many times to try each list of gateways
+[[ -z $2 ]] && num_retries=2 || num_retries=$2
+#Setting Receive mode, if it's set
+[[ -z $3 ]] && echo "######Send Mode Set" || send_mode=$3
+
+# Randomize our station list for fun before each run
+station_list_all=$(mktemp station_list.tmpXXX)
+station_list_filtered=$(mktemp station_list.tmpXXX)
+station_list_good=$(mktemp station_list.tmpXXX)
+shuf $gwldir/${band}m.txt > ${station_list_all}
+shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}
+
+
+cleanup() {
+    rm station_list.tmp* &> /dev/null
+    rm ${gwldir}/gg-${band}m.txt &> /dev/null
+    rm ${logdir}/*-connectlog-*.log &> /dev/null
+}
+
+# Wont cancel if pat is trying to connect, but will stop after pat fails
+trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
+parser() {
+LOGFILE="${logdir}/${GWCALL}-connectlog-${date}.log"
+CONNFAILREASON=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | awk -F":" '{print $4}'`
+CONNFAILED=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | wc -l`
+[[ $CONNFAILED -ge 1 ]] || cp $LOGFILE ${logdir}/good-$date.log
+CONNDATE=`grep "Connected" $LOGFILE | awk '{print $1}'`
+CONNTIME=`grep "Connected" $LOGFILE | awk '{print $2}'`
+CONNGW=`grep "Connected" $LOGFILE | awk '{print $5}'`
+CONNPROTO=`grep "Connected" $LOGFILE | awk -F"\(|\)" '{print $2}'`
+COONNGWLOC=`grep "daily minutes" $LOGFILE | awk -F"\(|\)" '{print $2}'`
+CONNXMIT=`grep "Transmitting" $LOGFILE | wc -l`
+CONNRCVD=`grep "Receiving" $LOGFILE | wc -l`
+CONNXMITALL=`grep -A 1 "Transmitting" $LOGFILE | grep -v "Transmitting" | grep 100 | wc -l`
+CONNRCVDALL=`grep -A 1 "Receiving" $LOGFILE | grep -v "Receiving" | grep 100 | wc -l`
+ECONNDATE=`grep "QSX" $LOGFILE | awk '{print $1}'`
+ECONNTIME=`grep "QSX" $LOGFILE | awk '{print $2}'`
+ENDOUTBOXNUM=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
+echo "$CONNDATE|$CONNTIME|$CONNPROTO|$CONNGW|$GWGRID|$GWDIST|$GWBEAR|$GWPROTO|$GWSPD|$GWFREQ|$COONNGWLOC|$CONNXMIT|$CONNXMITALL|$CONNRCVD|$CONNRCVDALL|$ECONNDATE|$ECONNTIME|$outboxnum|$ENDOUTBOXNUM|$CONNFAILREASON|$CONNFAILED" >> ${logdir}/pat_connect-summ.log
+
+}
+
+check_pat_out() {
+[[ $send_mode == "RECV" ]] && return 0
+pat_out=`ls -ltr ${patmailbox}/${mycall}/out/ | grep -v total | wc -l`
+if [[ $pat_out -ge 1 ]]
+then
+	echo "#####################################################"
+	echo "Found messages in the outbox"
+	echo "#####################################################"
+	return 0
+else
+	echo "#####################################################"
+	echo "Nothing to send, exiting"
+	echo "#####################################################"
+	cleanup
+	exit 0
+fi
+}
+
+station_connect() {
+	connum=1
+	mcnt=`wc -l $station_list | awk '{print $1}'`
+    while read line
+    do
+	let runnum=$fails+1
+	echo "#####################################################"
+	echo "Connection attempt $connum of $mcnt "
+	echo "Run number $runnum "
+	echo "#####################################################"
+        CALL=$(echo $line |awk '{print $11}')
+	GWCALL=$(echo $line |awk '{print $1}')
+	GWGRID=$(echo $line |awk '{print $2}')
+	GWDIST=$(echo $line |awk '{print $3}')
+	GWBEAR=$(echo $line |awk '{print $4}')
+	GWPROTO=$(echo $line |awk '{print $5}')
+	GWSPD=$(echo $line |awk '{print $6}')
+	GWFREQ=$(echo $line |awk '{print $7}')
+        date=$(date +%F"_"%H":"%M":"%S)
+        pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log
+	#Parsing the connection log
+	parser
+        RESULT=`tail -1 ${logdir}/pat_connect-summ.log | awk -F "|" '{print $NF}'`
+        if [ ${RESULT} = "0" ]
+        then
+            echo "${date} SUCCESS with ${CALL}" |tee -a ${logdir}/runlog.txt
+        else
+            echo "${date} FAIL with ${CALL}" |tee -a ${logdir}/runlog.txt
+    		((connum++))
+        fi
+    #Checking pat outbox
+    check_pat_out
+    done < ${station_list}
+    # at this point we have failed to connect, increment fail counter and try again
+    ((fails++))
+    unset connum
+    if [ ${fails} -lt ${num_retries} ]
+    then
+        station_connect ${1}
+    else
+        date=$(date +%F"_"%H":"%M":"%S)
+        echo "${date} failed to connect with ${num_retries} attempts"
+    fi
+}
+
+fails=0
+check_pat_out
+
+#Checking for past good GW's and setting the station list to them
+if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt ]]
+then
+        for gws in `cat ${gwldir}/good-gws.txt`
+                do grep $gws ${gwldir}/${band}m.txt >> ${gwldir}/gg-${band}m.txt
+        done
+        if [[ -f ${gwldir}/gg-${band}m.txt && -s ${gwldir}/gg-${band}m.txt ]]
+        then
+                echo "Found some Previously connected GWs, trying them now"
+		cat ${gwldir}/gg-${band}m.txt > $station_list_good
+		station_list="$station_list_good"
+        else
+		station_list="$station_list_filtered"
+        fi
+	#Connecting to good gateways	
+	station_connect "${band}"
+	fails=0
+else
+        echo "No good Gateways"
+	sleep 2
+fi
+
+check_pat_out
+	echo "#####################################################"
+	echo "Trying more Gateways"
+	echo "#####################################################"
+		station_list="$station_list_filtered"
+station_connect "${band}"
+cleanup
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect  [K^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m cat pat-connect-hf.sh echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN --p2p-onlyMpat compose --help[K
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccat pat-sender.sh echo "ardop:///VK3DPW?bw=2000MAX&freq=7183.5"
+[?2004lardop:///VK3DPW?bw=2000MAX&freq=7183.5
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///VK3DPW?bw=2000MAX&freq=7183.5[K[K[K[K[K[K3582[C[C[C[C[1P?bw=2000MAX&freq=3582[1P?bw=2000MAX&freq=3582[1P?bw=2000MAX&freq=3582[1P?bw=2000MAX&freq=3582[1P?bw=2000MAX&freq=3582[1P?bw=2000MAX&freq=3582K?bw=2000MAX&freq=3582N?bw=2000MAX&freq=35824?bw=2000MAX&freq=3582L?bw=2000MAX&freq=3582Q?bw=2000MAX&freq=3582N?bw=2000MAX&freq=3582[1Pardop:///KN4LQN?bw=2000MAX&freq=3582
+[?2004l[1] 5295
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 2023/09/13 08:15:51 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:15:51 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:15:51 Connecting to KN4LQN (ardop)...
+2023/09/13 08:16:30 Unable to establish connection to remote: Connect timeout
+^C[?2004l[?2004h[?2004l
+[1]+  Exit 1                  pat connect ardop:///KN4LQN?bw=2000MAX
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect ardop:///KN4LQN?bw=2000MAX&freq=3582"[C[Kpat env
+[?2004lPAT_MYCALL="KF4EMZ"
+PAT_LOCATOR="FM08"
+PAT_VERSION="0.15.0"
+PAT_ARCH="arm"
+PAT_OS="linux"
+PAT_MAILBOX_PATH="/home/riley/.local/share/pat/mailbox"
+PAT_CONFIG_PATH="/home/riley/.config/pat/config.json"
+PAT_LOG_PATH="/home/riley/.local/state/pat/pat.log"
+PAT_EVENTLOG_PATH="/home/riley/.local/state/pat/eventlog.json"
+PAT_FORMS_PATH="/home/riley/.local/share/pat/Standard_Forms"
+PAT_DEBUG=""
+PAT_WEB_DEV_ADDR=""
+ARDOP_DEBUG=""
+PACTOR_DEBUG=""
+AGWPE_DEBUG=""
+VARA_DEBUG=""
+GZIP_EXPERIMENT="1"
+ARDOP_FSKONLY_EXPERIMENT=""
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm "/home/riley/.local/share/pat/mailbox"/"K"F4EMZ/"o"ut/"*"
+[?2004lrm: cannot remove '/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*': No such file or directory
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm "/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*"[K[C[C[C[C[C[1P/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C"/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat env[Kconnect ardop:///KN4LQN?bw=2000MAX&freq=3582"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[4Pecho "ardop:///VK3DPW?bw=2000MAX&freq=7183.5"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[23Pcat pat-connect-hf.sh echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN --p2p-only[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-onlyKE4KEW     --p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KE4KEW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C"/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat env[Kconnect ardop:///KN4LQN?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"KE4KEW    ?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[1P?bw=2000MAX&freq=3582"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P"[1P"6"5"
+[?2004l[?2004h> ^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect ardop:///KE4KEW?bw=2000MAX&freq=3565"[C"ardop:///KE4KEW?bw=2000MAX&freq=3565"
+[?2004l2023/09/13 08:19:24 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:19:24 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:19:24 QSY ardop: 3565
+2023/09/13 08:19:27 Connecting to KE4KEW (ardop)...
+2023/09/13 08:19:51 Connected to KE4KEW (ardop)
+2023/09/13 08:21:29 Exchange failed: connection lost
+2023/09/13 08:21:30 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KE4KEW?bw=2000MAX&freq=3565"[1Pardop:///KE4KEW?bw=2000MAX&freq=3565"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KE4KEW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2Ppat connect "ardop:///KE4KEW?bw=2000MAX&freq=3565"[1Pardop:///KE4KEW?bw=2000MAX&freq=3565"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KE4KEW --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-onlyKK4CSK     --p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KK4CSK --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2Ppat connect "ardop:///KE4KEW?bw=2000MAX&freq=3565"[1Pardop:///KE4KEW?bw=2000MAX&freq=3565""ardop:///KE4KEW?bw=2000MAX&freq=3565"[1P"[1P"7"6"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"KK4CSK    ?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"[1P?bw=2000MAX&freq=3576"
+[?2004l2023/09/13 08:22:52 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:22:52 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:22:52 QSY ardop: 3576
+2023/09/13 08:22:55 Connecting to KK4CSK (ardop)...
+2023/09/13 08:23:03 Connected to KK4CSK (ardop)
+2023/09/13 08:24:42 Exchange failed: connection lost
+2023/09/13 08:24:43 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KK4CSK?bw=2000MAX&freq=3576"
+[?2004l2023/09/13 08:24:46 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:24:46 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:24:46 QSY ardop: 3576
+2023/09/13 08:24:49 Connecting to KK4CSK (ardop)...
+2023/09/13 08:25:03 Connected to KK4CSK (ardop)
+2023/09/13 08:26:41 Exchange failed: connection lost
+2023/09/13 08:26:42 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KK4CSK?bw=2000MAX&freq=3576"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KK4CSK --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2Ppat connect "ardop:///KE4KEW?bw=2000MAX&freq=3565"[1Pardop:///KE4KEW?bw=2000MAX&freq=3565"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KE4KEW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C"/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat env[Kconnect ardop:///KN4LQN?bw=2000MAX&freq=3582[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pecho "ardop:///VK3DPW?bw=2000MAX&freq=7183.5"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[23Pcat pat-connect-hf.sh echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN --p2p-onlyMpat compose --help[K
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccat pat-sender.sh echo "ardop:///VK3DPW?bw=2000MAX&freq=7183.5"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls -ltr [Kcd ~/git/winlinkauto/[3P~/git/winlinkauto/cat 3ZKLW4WIAGBJ.b2f[5Pgrep Reminder *more AESDZIRNUF61.b2f fil[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[14Pls -ltr[C[14@file AESDZIRNUF61.b2f[Cmor[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7Pgrep Reminder *cat 3ZKLW4WIAGBJ.b2f[2P~/git/winlinkauto/cd ~/git/winlinkauto/[13Pls -ltr echo "ardop:///VK3DPW?bw=2000MAX&freq=7183.5"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[27Pcat pat-sender.sh pat compose --helpecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN --p2p-onlyMcat pat-connect-hf.sh [K
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "ardop:///VK3DPW?bw=2000MAX&freq=7183.5"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect ardop:///KN4LQN?bw=2000MAX&freq=3582[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cenv[Krm "/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*"^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m ^Rech[K[K[K[K(reverse-i-search)`': [Ke': pat connect "ardop:///KK4CSK?bw=2000MAX&fr[3me[23mq=3576"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cc': pat conn[3mec[23mt "ardop:///KK4CSK?bw=2000MAX&freq=3576"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ch': [3mech[23mo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KK4CSK --p2p-onlyMo': [3mecho[23m "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink W[1@eM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CE4KEWM[C[C[C[C[C[C[57Pardop:///VK3DPW?bw=2000MAX&freq=7183.5"
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CKF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN --p2p-onlyM[C[C[C[C[C[C[57Pardop:///VK3DPW?bw=2000MAX&freq=7183.5"
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7@failed reverse-i-search)`echo': echo^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m cat examples/wlnotes.txt 
+[?2004lrigctld -m 3087 -v -r /dev/ttyACM1 -s 19200
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
+$ ./ardopc/piardopc 8515 plughw:0,0 plughw:2,0
+pat http
+#Xeigu 6100
+rigctld -m 3087 -v -r /dev/ttyACM1 -s 19200
+./ardopc/piardopc 8515 plughw:2,0 plughw:2,0
+#Yaesu dx10
+rigctld -m 1042 -v -r /dev/ttyUSB0 -s 38400
+./ardopc/piardopc 8515 plughw:3,0 plughw:3,0
+#Test rigctl
+echo "F 7089000" | nc -w 1 localhost 4532
+echo "f" | nc -w 1 localhost 4532
+#pat packet
+pat connect ax25+agwpe:///KO4CTF-10
+#pat packet with a digipeter
+pat connect ax25+agwpe:///KB4OLM-5/KO4CTF-10
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 7089000" | nc -w 1 localhost 4532
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 7089000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[16Pcat examples/wlnotes.txt pat connect "ardop:///KK4CSK?bw=2000MAX&freq=3576"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KK4CSK --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7089000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[16Pcat examples/wlnotes.txt pat connect "ardop:///KK4CSK?bw=2000MAX&freq=3576"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KK4CSK --p2p-only[C[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-onlyW4RJG      --p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7089000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[16Pcat examples/wlnotes.txt pat connect "ardop:///KK4CSK?bw=2000MAX&freq=3576"[C[1P"[1P"[1P"[1P"7"1"1"1"[C[C[C[C[C[C[C[C[C[1P&freq=7111"[1P&freq=7111"[1P&freq=7111"[1P&freq=7111"[1P&freq=7111"[1P&freq=7111"[1P&freq=7111"5&freq=7111"0&freq=7111"0&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"W4RJG     ?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"[1P?bw=500&freq=7111"
+[?2004l2023/09/13 08:30:09 X6100 ready. Dial frequency is 7.089.00 MHz.
+2023/09/13 08:30:09 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:30:09 QSY ardop: 7111
+2023/09/13 08:30:12 Connecting to W4RJG (ardop)...
+2023/09/13 08:30:33 Connected to W4RJG (ardop)
+;FW: W4RJG HCVAARES
+[RMS Express-1.7.9.0-B2FHM$]
+KF4EMZ DE W4RJG >
+>FC EM KXWJVNCKQLBW 368 301 0
+Sending checksum 27
+2023/09/13 08:35:13 Exchange failed: connection lost
+2023/09/13 08:35:14 QSX ardop: 7089.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///W4RJG?bw=500&freq=7111"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7089000" | nc -w 1 localhost 4532[C[C[C[C[C[1P[1P[1P[C[1P[1@1[1@1[1@1
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 711100" | nc -w 1 localhost 4532[C[C[1@0
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 7111000" | nc -w 1 localhost 4532[1P[1P[C[C[C[1@0[1@8
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [Kr': pat connect "ardop:///W4RJG?bw=500&f[3mr[23meq=7111"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cm': [3mrm[23m /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7108000" | nc -w 1 localhost 453211[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///W4RJG?bw=500&freq=7111"[1P"[1P"[1P"1"0"8"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7089000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[16Pcat examples/wlnotes.txt pat connect "ardop:///KK4CSK?bw=2000MAX&freq=3576"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[25Pcat examples/wlnotes.txt echo "F 7089000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-only[C[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-onlyK --p2p-onlym --p2p-only4 --p2p-onlyD --p2p-onlyC --p2p-only[1P[1@M
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-onlyM[K
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7108000" | nc -w 1 localhost 453211[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///W4RJG?bw=500&freq=7108"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-only[1P --p2p-onlyK0RVW      --p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only[1P--p2p-only
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" K0RVW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7108000" | nc -w 1 localhost 453211[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@0[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[1P[1P[1P[1P[1P[1P[1@1[1@0[1@1[1@4[1@3[1@0[1@0[1@0
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 10143000" | nc -w 1 localhost 4532KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" K0RVW --p2p-onlyM[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m [41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7108000" | nc -w 1 localhost 453211[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///W4RJG?bw=500&freq=7108"[1P"[1P"[1P"[1P"1"0"1"4"3"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"K0RVW     ?bw=500&freq=10143"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"[1P?bw=500&freq=10143"
+[?2004l2023/09/13 08:45:33 X6100 ready. Dial frequency is 10.143.00 MHz.
+2023/09/13 08:45:35 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:45:35 QSY ardop: 10143
+2023/09/13 08:45:38 Connecting to K0RVW (ardop)...
+2023/09/13 08:46:17 Unable to establish connection to remote: Connect timeout
+2023/09/13 08:46:18 QSX ardop: 10143.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///K0RVW?bw=500&freq=10143"
+[?2004l2023/09/13 08:46:31 X6100 ready. Dial frequency is 10.143.00 MHz.
+2023/09/13 08:46:31 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:46:31 QSY ardop: 10143
+2023/09/13 08:46:34 Connecting to K0RVW (ardop)...
+2023/09/13 08:47:13 Unable to establish connection to remote: Connect timeout
+2023/09/13 08:47:14 QSX ardop: 10143.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///K0RVW?bw=500&freq=10143"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[4Pecho "F 10143000" | nc -w 1 localhost 4532KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" K0RVW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7108000" | nc -w 1 localhost 453211[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 7111000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///K0RVW?bw=500&freq=10143"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[4Pecho "F 10143000" | nc -w 1 localhost 4532KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" K0RVW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7111000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///K0RVW?bw=500&freq=10143"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[4Pecho "F 10143000" | nc -w 1 localhost 4532KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" K0RVW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7108000" | nc -w 1 localhost 453211[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///W4RJG?bw=500&freq=7111"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-only
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7111000" | nc -w 1 localhost 4532[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///K0RVW?bw=500&freq=10143"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[4Pecho "F 10143000" | nc -w 1 localhost 4532KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" K0RVW --p2p-onlyM[51PF 10143000" | nc -w 1 localhost 4532
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///K0RVW?bw=500&freq=10143"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[4Pecho "F 10143000" | nc -w 1 localhost 4532KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" K0RVW --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KM4DC --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7108000" | nc -w 1 localhost 453211[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpat connect "ardop:///W4RJG?bw=500&freq=7111"
+[?2004l2023/09/13 08:48:19 X6100 ready. Dial frequency is 7.111.00 MHz.
+2023/09/13 08:48:19 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:48:19 QSY ardop: 7111
+2023/09/13 08:48:22 Connecting to W4RJG (ardop)...
+2023/09/13 08:49:00 Unable to establish connection to remote: Connect timeout
+2023/09/13 08:49:01 QSX ardop: 7111.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///W4RJG?bw=500&freq=7111"
+[?2004l2023/09/13 08:49:05 X6100 ready. Dial frequency is 7.111.00 MHz.
+2023/09/13 08:49:05 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:49:05 QSY ardop: 7111
+2023/09/13 08:49:08 Connecting to W4RJG (ardop)...
+^C2023/09/13 08:50:17 Got abort signal while dialing ardop, cancelling...
+2023/09/13 08:50:31 Connect cancelled
+2023/09/13 08:50:32 QSX ardop: 7111.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///W4RJG?bw=500&freq=7111"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7Ppat connect "ardop:///W4RJG?bw=500&freq=7111"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[48Ppat connect "ardop:///W4RJG?bw=500&freq=7111"
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Krm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7Ppat connect "ardop:///W4RJG?bw=500&freq=7111"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 7111000" | nc -w 1 localhost 4532[C[1P[1P[1P[1P[1P[1P[1P[1@3[1@5[1@8[1@2
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 3582" | nc -w 1 localhost 4532[1@0[1@0[1@0
+[?2004lRPRT 0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "F 3582000" | nc -w 1 localhost 4532[3P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[?2004lrm: cannot remove '/home/riley/.local/share/pat/mailbox/KF4EMZ/out/*': No such file or directory
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[11Pecho "F 3582000" | nc -w 1 localhost 4532[3P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[7Ppat connect "ardop:///W4RJG?bw=500&freq=7111"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" W4RJG --p2p-only^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [Kl': rm /home/riley/.local/share/pat/mai[3ml[23mbox/KF4EMZ/out/*[Cfailed reverse-i-search)`lg': rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[19Preverse-i-search)`l': echo "F 3582000" | nc -w 1 loca[3ml[23mhost 4532[C[8@failed reverse-i-search)`lq': echo "F 3582000" | nc -w 1 local[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@n[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [KL': pat connect ardop:///KN4[3mL[23mQN?bw=2000MAX&freq=3582[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CQ': pat connect ardop:///KN4[3mLQ[23mN?bw=2000MAX&freq=3582echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4[3mLQ[23mN --p2p-onlyM[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "[11@Winlink Wednesday Check-In" KN4LQ
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4LQN --p2p-onlyM[41Prm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [KL': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4[3mL[23mQN --p2p-onlyMQ': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wed[1@nesday Check-In" KN4[3mLQ[23mM[C[C[C[56Ppat connect ardop:///KN4[3mLQ[23mN?bw=2000MAX&freq=3582
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect ardop:///KN4LQN?bw=2000MAX&freq=3582
+[?2004l[1] 5548
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 2023/09/13 08:52:05 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:52:05 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:52:05 Connecting to KN4LQN (ardop)...
+2023/09/13 08:52:14 Connected to KN4LQN (ardop)
+2023/09/13 08:53:43 Exchange failed: connection lost
+
+[?2004l[1]+  Exit 1                  pat connect ardop:///KN4LQN?bw=2000MAX
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect ardop:///KN4LQN?bw=2000MAX&freq=3582""ardop:///KN4LQN?bw=2000MAX&freq=3582"
+[?2004l2023/09/13 08:54:04 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:54:04 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:54:04 QSY ardop: 3582
+2023/09/13 08:54:07 Connecting to KN4LQN (ardop)...
+2023/09/13 08:54:15 Connected to KN4LQN (ardop)
+2023/09/13 08:55:51 Exchange failed: connection lost
+2023/09/13 08:55:52 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KN4LQN?bw=2000MAX&freq=3582"
+[?2004l2023/09/13 08:55:59 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:55:59 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:55:59 QSY ardop: 3582
+2023/09/13 08:56:02 Connecting to KN4LQN (ardop)...
+2023/09/13 08:56:10 Connected to KN4LQN (ardop)
+2023/09/13 08:57:46 Exchange failed: connection lost
+2023/09/13 08:57:47 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [Kr': pat connect "ardop:///KN4LQN?bw=2000MAX&f[3mr[23meq=3582"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cm': [3mrm[23m /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[2Ppat connect "ardop:///KN4LQN?bw=2000MAX&freq=3582"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [Kk': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Chec[3mk[23m-In" KN4LQN --p2p-only[C[C[C[C[C[C[C[C[C[C[CM[Cfailed reverse-i-search)`ke': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winl[8@ink Wednesday CheckM[C[C[C[C[C[C[C[C[Cw': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Win[1@l[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [KK': rm /home/riley/.local/share/pat/mailbox/[3mK[23mF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1PE': pat connect "ardop:///KE4[3mKE[23mW?bw=2000MAX&freq=3565"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CW': pat connect "ardop:///KE4[3mKEW[23m?bw=2000MAX&freq=3565"[1Pardop:///KE4[3mKEW[23m?bw=2000MAX&freq=3565"echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KE4[3mKEW[23m --p2p-onlyM[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "[10@Winlink Wednesday Check-In" KE4KEW
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [KK': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KE4[3mK[23mEW --p2p-onlyME': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wed[1@nesday Check-In" KE4[3mKE[23mMW': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink We[1@dnesday Check-In" KE4[3mKEW[23mM[C[C[C[53Ppat connect "ardop:///KE4[3mKEW[23m?bw=2000MAX&freq=3565"
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KE4KEW?bw=2000MAX&freq=3565"
+[?2004l2023/09/13 08:58:21 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:58:21 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:58:21 QSY ardop: 3565
+2023/09/13 08:58:24 Connecting to KE4KEW (ardop)...
+2023/09/13 08:59:03 Unable to establish connection to remote: Connect timeout
+2023/09/13 08:59:04 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KE4KEW?bw=2000MAX&freq=3565"
+[?2004l2023/09/13 08:59:08 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 08:59:08 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 08:59:08 QSY ardop: 3565
+2023/09/13 08:59:11 Connecting to KE4KEW (ardop)...
+2023/09/13 09:00:02 Connected to KE4KEW (ardop)
+2023/09/13 09:01:41 Exchange failed: connection lost
+2023/09/13 09:01:42 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [Kr': pat connect "ardop:///KE4KEW?bw=2000MAX&f[3mr[23meq=3565"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cm': [3mrm[23m /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m rm /home/riley/.local/share/pat/mailbox/KF4EMZ/out/*
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [KL': pat connect "ardop:///KN4[3mL[23mQN?bw=2000MAX&freq=3582"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CQ': pat connect "ardop:///KN4[3mLQ[23mN?bw=2000MAX&freq=3582"[2Pardop:///KN4[3mLQ[23mN?bw=2000MAX&freq=3582echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4[3mLQ[23mN --p2p-onlyM[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "[11@Winlink Wednesday Check-In" KN4LQ
+[?2004lMessage posted
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m (reverse-i-search)`': [KL': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wednesday Check-In" KN4[3mL[23mQN --p2p-onlyMQ': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink Wed[1@nesday Check-In" KN4[3mLQ[23mMN': echo "KF4EMZ, Riley Chandler, Waynesboro, VA (HF-P2P)" | pat compose --from KF4EMZ --subject "Winlink We[1@dnesday Check-In" KN4[3mLQN[23mM[C[C[C[53Ppat connect "ardop:///KN4[3mLQN[23m?bw=2000MAX&freq=3582"
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KN4LQN?bw=2000MAX&freq=3582"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P&freq=3582"[1P&freq=3582"[1P&freq=3582"[1P&freq=3582"[1P&freq=3582"[1P&freq=3582"[1P&freq=3582"5&freq=3582"0&freq=3582"0&freq=3582"
+[?2004l2023/09/13 09:02:15 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 09:02:16 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 09:02:16 QSY ardop: 3582
+2023/09/13 09:02:19 Connecting to KN4LQN (ardop)...
+2023/09/13 09:02:35 Connected to KN4LQN (ardop)
+;FW: KN4LQN CHESTRFLDEOC
+[RMS Express-1.7.9.0-B2FHM$]
+KF4EMZ DE KN4LQN >
+>FC EM ZRCZPMH6DHDP 369 302 0
+Sending checksum 4D
+FS Y
+Remote accepted ZRCZPMH6DHDP
+Transmitting [Winlink Wednesday Check-In] [offset 0]
+Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In:  29%Winlink Wednesday Check-In: 100%
+FF
+>FQ
+
+
+
+2023/09/13 09:04:25 Disconnected.
+2023/09/13 09:04:26 QSX ardop: 3582.000
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m pat connect "ardop:///KN4LQN?bw=500&freq=3582"[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m 
+[?2004l[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m exit
+[?2004lexit
+
+Script done on 2023-09-13 09:07:38-04:00 [COMMAND_EXIT_CODE="0"]

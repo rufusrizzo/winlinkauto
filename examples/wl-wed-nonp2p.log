@@ -1,0 +1,102 @@
+Script started on 2023-09-13 09:17:46-04:00 [TERM="screen" TTY="/dev/pts/5" COLUMNS="128" LINES="63"]
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m ./vhf-hf-send-wl.sh
+[?2004lbash: ./vhf-hf-send-wl.sh: Permission denied
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m ./vhf-hf-send-wl.shb./vhf-hf-send-wl.sha./vhf-hf-send-wl.shs./vhf-hf-send-wl.shh./vhf-hf-send-wl.sh ./vhf-hf-send-wl.sh
+[?2004lMessage posted
+2023/09/13 09:18:08 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 09:18:09 AGWPE TNC (2005.127) initialized
+2023/09/13 09:18:09 Connecting to KO4CTF-10 (ax25+agwpe)...
+2023/09/13 09:18:13 Connected to KO4CTF-10 (AX.25)
+KO4CTF-10 Augusta County VHF Gateway
+[WL2K-5.0-B2FWIHJM$]
+;PQ: 69101650
+CMS via KO4CTF >
+>FC EM SUWW5Y3OAXYR 292 250 0
+Sending checksum 2A
+;PM: KF4EMZ SEC04QMGF64W 984 KN4LQN@winlink.org Winlink Wednesday Net Confirmation (Episode #365)
+;PM: KF4EMZ O1KJ0E6TAJ2P 1079 KN4LQN@winlink.org Winlink Wednesday Roster Published (6 September 2023, Episode #365)
+;PM: KF4EMZ 7P33NGUT5MSE 2278 KN4LQN@winlink.org Winlink Wednesday Reminder (#366)
+FS Y
+Remote accepted SUWW5Y3OAXYR
+Transmitting [Winlink Wednesday Check-In] [offset 0]
+Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%Winlink Wednesday Check-In: 100%
+FC EM SEC04QMGF64W 2079 984 0
+FC EM O1KJ0E6TAJ2P 2305 1079 0
+FC EM 7P33NGUT5MSE 5260 2278 0
+F> D5
+3 proposal(s) received
+Accepting SEC04QMGF64W
+Accepting O1KJ0E6TAJ2P
+Accepting 7P33NGUT5MSE
+Receiving [Winlink Wednesday Net Confirmation (Episode #365)] [offset 0]
+Winlink Wednesday Net Confirmation (Episode #365):  20%Winlink Wednesday Net Confirmation (Episode #365):  33%Winlink Wednesday Net Confirmation (Episode #365):  46%Winlink Wednesday Net Confirmation (Episode #365):  59%Winlink Wednesday Net Confirmation (Episode #365):  72%Winlink Wednesday Net Confirmation (Episode #365):  85%Winlink Wednesday Net Confirmation (Episode #365):  98%Winlink Wednesday Net Confirmation (Episode #365): 100%Winlink Wednesday Net Confirmation (Episode #365): 100%
+Receiving [Winlink Wednesday Roster Published (6 September 2023, Episode #365)] [offset 0]
+Winlink Wednesday Roster Published (6 September 2023, Episode #365):  17%Winlink Wednesday Roster Published (6 September 2023, Episode #365):  29%Winlink Wednesday Roster Published (6 September 2023, Episode #365):  40%Winlink Wednesday Roster Published (6 September 2023, Episode #365):  52%Winlink Wednesday Roster Published (6 September 2023, Episode #365):  64%Winlink Wednesday Roster Published (6 September 2023, Episode #365):  76%Winlink Wednesday Roster Published (6 September 2023, Episode #365):  87%Winlink Wednesday Roster Published (6 September 2023, Episode #365):  99%Winlink Wednesday Roster Published (6 September 2023, Episode #365): 100%Winlink Wednesday Roster Published (6 September 2023, Episode #365): 100%
+Receiving [Winlink Wednesday Reminder (#366)] [offset 0]
+Winlink Wednesday Reminder (#366):   6%Winlink Wednesday Reminder (#366):  15%Winlink Wednesday Reminder (#366):  21%Winlink Wednesday Reminder (#366):  26%Winlink Wednesday Reminder (#366):  32%Winlink Wednesday Reminder (#366):  37%Winlink Wednesday Reminder (#366):  43%Winlink Wednesday Reminder (#366):  48%Winlink Wednesday Reminder (#366):  54%Winlink Wednesday Reminder (#366):  60%Winlink Wednesday Reminder (#366):  65%Winlink Wednesday Reminder (#366):  71%Winlink Wednesday Reminder (#366):  76%Winlink Wednesday Reminder (#366):  82%Winlink Wednesday Reminder (#366):  85%Winlink Wednesday Reminder (#366):  90%Winlink Wednesday Reminder (#366):  91%Winlink Wednesday Reminder (#366):  97%Winlink Wednesday Reminder (#366): 100%Winlink Wednesday Reminder (#366): 100%
+>FF
+FQ
+2023/09/13 09:19:36 Disconnected.
+Message posted
+######Send Mode Set
+#####################################################
+Found messages in the outbox
+#####################################################
+Found some Previously connected GWs, trying them now
+#####################################################
+Connection attempt 1 of 7 
+Run number 1 
+#####################################################
+2023/09/13 09:19:56 X6100 ready. Dial frequency is 3.582.00 MHz.
+2023/09/13 09:19:56 ARDOP TNC (ardopc_1.0.4.1qBPQ) initialized
+2023/09/13 09:19:56 QSY ardop: 7088
+2023/09/13 09:20:00 Connecting to AJ4GU (ardop)...
+2023/09/13 09:20:12 Connected to AJ4GU (ardop)
+RMS Trimode 1.3.51.0
+KF4EMZ has 120 daily minutes remaining with AJ4GU (EM83AL)
+{SFI = 154 On 2023-09-13 11:00 UTC}
+[WL2K-5.0-B2FWIHJM$]
+;PQ: 64107862
+CMS via AJ4GU >
+>FC EM B43I2GUO5F5D 291 249 0
+Sending checksum CA
+FS Y
+Remote accepted B43I2GUO5F5D
+Transmitting [Winlink Wednesday Check-In] [offset 0]
+Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:   0%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  37%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In:  88%Winlink Wednesday Check-In: 100%
+FF
+>FQ
+2023/09/13 09:22:23 Disconnected.
+2023/09/13 09:22:24 QSX ardop: 3582.000
+2023-09-13_09:19:56 SUCCESS with ardop:///AJ4GU?bw=500MAX&freq=7088
+#####################################################
+Nothing to send, exiting
+#####################################################
+######Send Mode Set
+#####################################################
+Nothing to send, exiting
+#####################################################
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m bash ./vhf-hf-send-wl.sh[Kls -[K[K[K[Ktail -5 logs/wl[Kin[K[K[K
+autotest.log                  good-2023-09-07_08:45:46.log  pat_connect-summ.log          vhf-wl.log
+good-2023-09-06_20:46:22.log  good-2023-09-07_09:24:07.log  runlog.txt                    
+good-2023-09-06_23:06:30.log  good-2023-09-13_09:19:56.log  sum_log_example.log           
+good-2023-09-07_08:03:09.log  man.log                       test-20m-s_r.log              
+[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m tail -5 logs/pat_connect-summ.log 
+[?2004l||||[DM79HQ]|2202|283|ARDOP|500|7.060.00||0|0|0|0|2023/09/07|08:45:00|1|1| Connect timeout|1
+||||[CN73SC]|3758|293|ARDOP|2000|7.100.00||0|0|0|0|2023/09/07|08:45:45|1|1| Connect timeout|1
+2023/09/07|08:46:00|ardop|AJ4GU|[EM83AL]|621|217|ARDOP|500|7.088.00|EM83AL|1|1|0|0|2023/09/07|08:47:53|1|0||0
+2023/09/07|09:24:23|ardop|AJ4GU|[EM83AL]|621|217|ARDOP|500|7.088.00|EM83AL|1|1|0|0|2023/09/07|09:27:00|1|0||0
+2023/09/13|09:20:12|ardop|AJ4GU|[EM83AL]|621|217|ARDOP|500|7.088.00|EM83AL|1|1|0|0|2023/09/13|09:22:24|1|0||0
+[?2004h[01;32mriley@gopi-old[00m:[01;34m~/git/winlinkauto $[00m exit
+[?2004lexit
+
+Script done on 2023-09-13 09:23:47-04:00 [COMMAND_EXIT_CODE="0"]
+./pat-sender-vhf.sh y Riley "Waynesboro, VA" riley@netandnix.net
+sleep 10
+pat connect ax25+agwpe:///KO4CTF-10
+sleep 10
+./pat-sender.sh y Riley "Waynesboro, VA" riley@netandnix.net
+sleep 10
+./pat-connect-hf.sh 40
+sleep 10
+./pat-connect-hf.sh 20
