@@ -7,7 +7,7 @@
 #Gathering Band to use
 if [[ -z $1 ]] 
 then
-	echo "Popular Winlink bands, 10, 20, 30, 40, 80"
+	echo "Popular Winlink bands, 10, 20, 30, 40, 80, p2p"
 	echo "Just enter the number."
 	read -p "Enter the band you wish to use: " band
 else
@@ -32,10 +32,25 @@ outboxnum=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
 station_list_all=$(mktemp station_list.tmpXXX)
 station_list_filtered=$(mktemp station_list.tmpXXX)
 station_list_good=$(mktemp station_list.tmpXXX)
-shuf $gwldir/${band}m.txt > ${station_list_all}
-shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}
+if [[ -f ${gwldir}/${band}m.txt && -s ${gwldir}/${band}m.txt ]]
+then
+	shuf $gwldir/${band}m.txt > ${station_list_all}  
+else
+	echo "No Gateways defined"
+	echo "Getting them"
+	pat-gen-stationlist.sh
+	shuf $gwldir/${band}m.txt > ${station_list_all}  
+fi
 
-
+if [[ -f ${gwldir}/${band}m-filtered.txt && -s ${gwldir}/${band}m-filtered.txt ]]
+then
+	shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}  
+else
+	echo
+	echo "May be P2P"
+	echo "P2P" >$gwldir/${band}m-filtered.txt
+	shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}  
+fi
 cleanup() {
     rm station_list.tmp* &> /dev/null
     rm ${gwldir}/gg-${band}m.txt &> /dev/null
@@ -48,7 +63,8 @@ parser() {
 LOGFILE="${logdir}/${GWCALL}-connectlog-${date}.log"
 CONNFAILREASON=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | awk -F":" '{print $4}'`
 CONNFAILED=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | wc -l`
-[[ $CONNFAILED -ge 1 ]] || cp $LOGFILE ${logdir}/good-$date.log
+#This can be used for debug
+#[[ $CONNFAILED -ge 1 ]] || cp $LOGFILE ${logdir}/good-$date.log
 CONNDATE=`grep "Connected" $LOGFILE | awk '{print $1}'`
 CONNTIME=`grep "Connected" $LOGFILE | awk '{print $2}'`
 CONNGW=`grep "Connected" $LOGFILE | awk '{print $5}'`
@@ -132,7 +148,7 @@ fails=0
 check_pat_out
 
 #Checking for past good GW's and setting the station list to them
-if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt ]]
+if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt && band -ne "p2p" ]]
 then
         for gws in `cat ${gwldir}/good-gws.txt`
                 do grep $gws ${gwldir}/${band}m.txt >> ${gwldir}/gg-${band}m.txt
@@ -157,6 +173,6 @@ check_pat_out
 	echo "#####################################################"
 	echo "Trying more Gateways"
 	echo "#####################################################"
-		station_list="$station_list_filtered"
+	station_list="$station_list_all"
 station_connect "${band}"
 cleanup
