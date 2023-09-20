@@ -1,0 +1,3 @@
+/usr/local/bin/winlinkauto
+/usr/local/etc/winlinkauto
+/var/log/winlinkauto

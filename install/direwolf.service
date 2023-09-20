@@ -1,0 +1,17 @@
+[Unit]
+Description=Direwolf for Winlinkauto
+After=network.target
+
+[Service]
+Type=simple
+User=riley
+Group=winlinkauto
+ExecStart=bash -c "/usr/bin/direwolf -c /usr/local/etc/winlinkauto/direwolf.conf"
+ExecStop=bash -c "killall direwolf"
+StandardOutput=file:/var/log/winlinkauto/direwolf.log
+StandardError=file:/var/log/winlinkauto/direwolf.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

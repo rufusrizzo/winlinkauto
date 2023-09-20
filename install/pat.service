@@ -1,0 +1,17 @@
+[Unit]
+Description=Pat Winlink for Winlinkauto
+After=network.target
+
+[Service]
+Type=simple
+User=riley
+Group=winlinkauto
+ExecStart=bash -c "/usr/bin/pat http"
+ExecStop=bash -c "killall pat"
+StandardOutput=file:/var/log/winlinkauto/pat.log
+StandardError=file:/var/log/winlinkauto/pat.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

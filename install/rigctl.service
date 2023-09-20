@@ -1,0 +1,16 @@
+[Unit]
+Description=Rigctld for Winlinkauto
+After=network.target
+
+[Service]
+Type=simple
+User=riley
+Group=winlinkauto
+ExecStart=bash -c "/usr/local/bin/winlinkauto/rigctl.sh"
+StandardOutput=file:/var/log/winlinkauto/rigctl.log
+StandardError=file:/var/log/winlinkauto/rigctl.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
