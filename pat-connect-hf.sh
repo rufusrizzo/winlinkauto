@@ -121,6 +121,7 @@ station_connect() {
         pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log
 	#Parsing the connection log
 	parser
+	sleep 2
         RESULT=`tail -1 ${logdir}/pat_connect-summ.log | awk -F "|" '{print $NF}'`
         if [ ${RESULT} = "0" ]
         then
@@ -174,5 +175,6 @@ check_pat_out
 	echo "Trying more Gateways"
 	echo "#####################################################"
 	station_list="$station_list_all"
+sleep 15
 station_connect "${band}"
 cleanup

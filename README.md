@@ -17,6 +17,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Generate Good GWs, remove dupe callsigns, add band it was good on
 - [ ] Build good GW list based on previous connections, add option to skip Good GWs
 - [ ] Configuration setup scripts
+- [ ] Process Run mgmt scripts
+- [ ] Process Run mgmt config
 - [ ] Create Pi Image
 - [ ] Create Windows VM
 - [ ] Automate/Test install scripts
