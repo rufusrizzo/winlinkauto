@@ -1,5 +1,5 @@
    Primary      KN4LQN    3582       2000/500    David Elkins       Chesterfield, VA
+   Alternate*   W4RJG     7111       500         Rory Griffin       Halifax, VA
    Alternate    KE4KEW    3565       2000/500    Martin Krupinski   Augusta, VA
    Alternate    KK4CSK    3576       2000/500    Jesse Bryant       Valdese, NC
-   Alternate*   W4RJG     7111       500         Rory Griffin       Halifax, VA
    Alternate*   K0RVW     10143      2000/500    Ken van Wyk        Fairfax, VA
