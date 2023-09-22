@@ -15,9 +15,9 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [X] Set pass/fail based on outbox contents, "kind of" it won't attempt if the outbox is empty
 - [X] Collect connection logs
 - [ ] Initial setup configuration scripts
-- [ ] Generate Good GWs, remove dupe callsigns, add band it was good on
-- [ ] Build good GW list based on previous connections, add option to skip Good GWs
-- [ ] Configuration setup scripts
+- [X] Build good GW list based on previous connections
+- [ ] Add option to skip Good GWs
+- [ ] Installation setup scripts
 - [x] Process Run mgmt scripts
 - [x] Create a way to monitor and run everything
 - [ ] Process Run mgmt config, ie change radios and update start scripts
@@ -33,7 +33,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Add P2P scripts, none Winlink Wed
 - [ ] Need to rank the Good GWs based on successful sends
 - [ ] Need to rank the Good GWs based on successful send times and the current time
-- [ ] Look at good connections, gather bearing and distance
+- [X] Generate GWs based on good connections, based on bearing
+- [ ] Generate GWs based on good connections, based on distance
 - [ ] Make decisions based on Solar Conditions
 - [ ] Add script to ignore Good GWs to find good gws
 - [ ] Get solar conditions every 3 hours

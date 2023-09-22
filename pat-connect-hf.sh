@@ -152,11 +152,14 @@ station_connect() {
 
 fails=0
 check_pat_out
+#Generating gGood GWs based on log
+[[ -f ${logdir}/pat_connect-summ.log ]] && cat ${logdir}/pat_connect-summ.log | awk -F"|" '{if ($NF < "1") print $0;}'  | awk -F"|" '{if ($2 == "${band}") print $0;}' | awk -F"|" '{print $6}' | sort | uniq >${gwldir}/good-gws-combined.txt
 
 #Checking for past good GW's and setting the station list to them
 if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt && band -ne "p2p" ]]
 then
-        for gws in `cat ${gwldir}/good-gws.txt`
+	cat ${gwldir}/good-gws.txt >> ${gwldir}/good-gws-combined.txt
+        for gws in `cat ${gwldir}/good-gws-combined.txt`
                 do grep $gws ${gwldir}/${band}m.txt >> ${gwldir}/gg-${band}m.txt
         done
         if [[ -f ${gwldir}/gg-${band}m.txt && -s ${gwldir}/gg-${band}m.txt ]]
@@ -165,13 +168,14 @@ then
 		cat ${gwldir}/gg-${band}m.txt > $station_list_good
 		station_list="$station_list_good"
         else
-		station_list="$station_list_filtered"
+		station_list="$station_list_all"
         fi
 	#Connecting to good gateways	
 	station_connect "${band}"
 	fails=0
 else
         echo "No good Gateways"
+	[[ -f ${gwldir}/good-gws-combined.txt ]] && cat ${gwldir}/good-gws-combined.txt > ${gwldir}/good-gws.txt
 	sleep 2
 fi
 
