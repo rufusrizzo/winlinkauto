@@ -61,8 +61,8 @@ cleanup() {
 trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
 parser() {
 LOGFILE="${logdir}/${GWCALL}-connectlog-${date}.log"
-CONNFAILREASON=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | awk -F":" '{print $4}'`
-CONNFAILED=`egrep -i "nable to establish connection to remote|Exchange failed" $LOGFILE  | wc -l`
+CONNFAILREASON=`egrep -i "nable to establish connection to remote|Exchange failed|i/o timeout" $LOGFILE  | awk -F":" '{print $4}' | tail -1`
+CONNFAILED=`egrep -i "nable to establish connection to remote|Exchange failed|i/o timeout" $LOGFILE  | wc -l`
 #This can be used for debug
 #[[ $CONNFAILED -ge 1 ]] || cp $LOGFILE ${logdir}/good-$date.log
 CONNDATE=`grep "Connected" $LOGFILE | awk '{print $1}'`
