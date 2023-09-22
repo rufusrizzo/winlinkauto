@@ -209,7 +209,6 @@ fi
 check_pat_out
 #Trying to connect to GW's based on successful connections and their bearing
 gen_mm_bearing
-	max_bearing=skip
 if [[ $max_bearing == "skip" ]]
 then
 	echo "#####################################################"
@@ -221,9 +220,9 @@ then
 	exit 
 else
 	echo "#####################################################"
-	echo "Trying Gateways based on past Successful connections"
+	echo "Trying Gateways based on Successful connection Bearings"
 	echo "#####################################################"
-	cat $gwldir/${band}m.txt | awk '{if ($4 > "${min_bearing}" && $4 < "${max_bearing}") print $0;}' |tail -n +2 > $gwldir/${band}m-filtered.txt
+	cat $gwldir/${band}m.txt | awk -v max_bearing=$max_bearing -v min_bearing=$min_bearing '{if ($4 > min_bearing && $4 < max_bearing) print $0;}' > $gwldir/${band}m-filtered.txt
 	shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}  
 	station_list="$station_list_all"
 	station_connect "${band}"
