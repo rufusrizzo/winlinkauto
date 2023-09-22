@@ -33,6 +33,9 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Need to rank the Good GWs based on successful sends
 - [ ] Need to rank the Good GWs based on successful send times and the current time
 - [ ] Look at good connections, gather bearing and distance
+- [ ] Make decisions based on Solar Conditions
+- [ ] Add script to ignore Good GWs to find good gws
+- [ ] Get solar conditions every 3 hours
 - [ ] Ask for antenna info, set GW bearing
 - [ ] Web configuration tool
 - [ ] Maybe setup Klish for the above scripts
