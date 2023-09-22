@@ -14,6 +14,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [X] Add good GW check
 - [X] Set pass/fail based on outbox contents, "kind of" it won't attempt if the outbox is empty
 - [X] Collect connection logs
+- [ ] Initial setup configuration scripts
 - [ ] Generate Good GWs, remove dupe callsigns, add band it was good on
 - [ ] Build good GW list based on previous connections, add option to skip Good GWs
 - [ ] Configuration setup scripts
