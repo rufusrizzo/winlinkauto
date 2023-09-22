@@ -27,6 +27,7 @@ outboxnum=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
 [[ -z $2 ]] && num_retries=2 || num_retries=$2
 #Setting Receive mode, if it's set
 [[ -z $3 ]] && echo "######Send Mode Set" || send_mode=$3
+[[ -z $4 ]] || send_mode2=$4
 
 # Randomize our station list for fun before each run
 station_list_all=$(mktemp station_list.tmpXXX)
@@ -179,11 +180,10 @@ station_connect() {
 
 fails=0
 check_pat_out
-#Generating gGood GWs based on log
-[[ -f ${logdir}/pat_connect-summ.log ]] && cat ${logdir}/pat_connect-summ.log | awk -F"|" '{if ($NF < "1") print $0;}'  | awk -F"|" '{if ($2 == "${band}") print $0;}' | awk -F"|" '{print $6}' | sort | uniq >${gwldir}/good-gws-combined.txt
-
+#Generating Good GWs based on log
+[[ -f ${logdir}/pat_connect-summ.log ]] && cat ${logdir}/pat_connect-summ.log | awk -F"|" '{if ($NF < "1") print $0;}'  | awk -v band=$band -F"|" '{if ($2 == band ) print $0;}' | awk -F"|" '{print $6}' | sort | uniq >${gwldir}/good-gws-combined.txt
 #Checking for past good GW's and setting the station list to them
-if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt && band -ne "p2p" ]]
+if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt && band -ne "p2p"  ]]
 then
 	cat ${gwldir}/good-gws.txt >> ${gwldir}/good-gws-combined.txt
         for gws in `cat ${gwldir}/good-gws-combined.txt`
@@ -202,7 +202,7 @@ then
 	fails=0
 else
         echo "No good Gateways"
-	[[ -f ${gwldir}/good-gws-combined.txt ]] && cat ${gwldir}/good-gws-combined.txt > ${gwldir}/good-gws.txt
+	[[ -f ${gwldir}/good-gws-combined.txt && -s ${gwldir}/good-gws-combined.txt ]] && cat ${gwldir}/good-gws-combined.txt > ${gwldir}/good-gws.txt
 	sleep 2
 fi
 
