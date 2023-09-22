@@ -33,8 +33,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Add P2P scripts, none Winlink Wed
 - [ ] Need to rank the Good GWs based on successful sends
 - [ ] Need to rank the Good GWs based on successful send times and the current time
-- [X] Generate GWs based on good connections, based on bearing
-- [ ] Generate GWs based on good connections, based on distance
+- [X] Generate GWs from good connections bearing
+- [ ] Generate GWs from good connections distance
 - [ ] Make decisions based on Solar Conditions
 - [ ] Add script to ignore Good GWs to find good gws
 - [ ] Get solar conditions every 3 hours

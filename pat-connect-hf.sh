@@ -42,15 +42,6 @@ else
 	shuf $gwldir/${band}m.txt > ${station_list_all}  
 fi
 
-if [[ -f ${gwldir}/${band}m-filtered.txt && -s ${gwldir}/${band}m-filtered.txt ]]
-then
-	shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}  
-else
-	echo
-	echo "May be P2P"
-	echo "P2P" >$gwldir/${band}m-filtered.txt
-	shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}  
-fi
 cleanup() {
     rm station_list.tmp* &> /dev/null
     rm ${gwldir}/gg-${band}m.txt &> /dev/null
@@ -102,6 +93,42 @@ else
 	cleanup
 	exit 0
 fi
+}
+
+gen_mm_bearing() {
+#Checking if the log is there
+if [ ! -f ${logdir}/pat_connect-summ.log ]
+then
+	max_bearing=skip
+	return 0
+fi
+#Max bearing
+max_bearing_log=`cat ${logdir}/pat_connect-summ.log | awk -F"|" '{if ($NF < "1") print $0;}' | grep -v FILL | awk -F"|" '{print $9}' | sort -n | tail -1`
+#Min bearing
+min_bearing_log=`cat ${logdir}/pat_connect-summ.log | awk -F"|" '{if ($NF < "1") print $0;}' | grep -v FILL | awk -F"|" '{print $9}' | sort -n | head -1`
+max_bearing=$((max_bearing_log+10))
+min_bearing=$((min_bearing_log-10))
+#Checking if they are more than 360, or less than zero, opening up by 10 degrees
+[[ $max_bearing -ge 360 ]] && max_bearing=$((max_bearing-360))
+[[ $min_bearing -le 0 ]] && min_bearing=$((360+min_bearing))
+
+[[ $max_bearing -ge 360 ]] && max_bearing=$((max_bearing-360))
+[[ $min_bearing -le 0 ]] && min_bearing=$((360+min_bearing))
+#If the Max bearing is smaller than min bearing, swapping them
+if [[ $min_bearing -gt $max_bearing ]]
+then
+	min_temp=$min_bearing
+	min_bearing=$max_bearing
+	max_bearing=$min_temp
+	unset min_temp
+fi
+if [[ $min_bearing -eq $max_bearing ]]
+then
+	max_bearing=skip
+fi
+echo "Max Bearing: " $max_bearing
+echo "Min Bearing: " $min_bearing
+
 }
 
 station_connect() {
@@ -180,10 +207,32 @@ else
 fi
 
 check_pat_out
+#Trying to connect to GW's based on successful connections and their bearing
+gen_mm_bearing
+	max_bearing=skip
+if [[ $max_bearing == "skip" ]]
+then
 	echo "#####################################################"
-	echo "Trying more Gateways"
+	echo "Trying All Gateways"
 	echo "#####################################################"
 	station_list="$station_list_all"
-sleep 15
-station_connect "${band}"
-cleanup
+	station_connect "${band}"
+	cleanup
+	exit 
+else
+	echo "#####################################################"
+	echo "Trying Gateways based on past Successful connections"
+	echo "#####################################################"
+	cat $gwldir/${band}m.txt | awk '{if ($4 > "${min_bearing}" && $4 < "${max_bearing}") print $0;}' |tail -n +2 > $gwldir/${band}m-filtered.txt
+	shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}  
+	station_list="$station_list_all"
+	station_connect "${band}"
+	echo "#####################################################"
+	echo "Trying All Gateways"
+	echo "#####################################################"
+	sleep 15
+	station_list="$station_list_all"
+	station_connect "${band}"
+	cleanup
+	exit
+fi
