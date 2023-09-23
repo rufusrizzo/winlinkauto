@@ -184,7 +184,6 @@ station_connect() {
         pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log
 	#Parsing the connection log
 	parser
-	sleep 2
         RESULT=`tail -1 ${logdir}/pat_connect-summ.log | awk -F "|" '{print $NF}'`
         if [ ${RESULT} = "0" ]
         then
@@ -195,6 +194,7 @@ station_connect() {
         fi
     #Checking pat outbox
     check_pat_out
+	sleep 15
     done < ${station_list}
     # at this point we have failed to connect, increment fail counter and try again
     ((fails++))

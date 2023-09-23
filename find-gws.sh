@@ -1,7 +1,27 @@
 #!/bin/bash
 #This script will automatically send a message and try to connect to GW's on the chosen band
 #Started by Riley C on 9/23
-band=$1
+if [[ -z $1 ]] 
+then
+	band=$1
+else
+	echo "Enter the band you wish to test: "
+	read band
+fi
+trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
+
+gwldir="gwlists"
+cfgdir="conf"
+logdir="logs"
+mycall=`pat env | grep MYCALL | awk -F "\"" '{print $2}'`
+patmailbox=`pat env | grep MAILBOX | awk -F"\"" '{print $2}'`
+outboxnum=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
+
+cleanup() {
+    rm ${patmailbox}/${mycall}/out/*
+}
+
+
 
 for run in 1 2 3 
 do
@@ -16,4 +36,5 @@ do
 	sleep 120
 
 done
+cleanup
 
