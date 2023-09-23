@@ -16,7 +16,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [X] Collect connection logs
 - [ ] Initial setup configuration scripts
 - [X] Build good GW list based on previous connections
-- [ ] Add option to skip Good GWs
+- [X] Add option to skip Good GWs
 - [ ] Installation setup scripts
 - [x] Process Run mgmt scripts
 - [x] Create a way to monitor and run everything
