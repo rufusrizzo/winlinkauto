@@ -132,6 +132,35 @@ echo "Min Bearing: " $min_bearing
 
 }
 
+good_gws() {
+#Generating Good GWs based on log
+[[ -f ${logdir}/pat_connect-summ.log ]] && cat ${logdir}/pat_connect-summ.log | awk -F"|" '{if ($NF < "1") print $0;}'  | awk -v band=$band -F"|" '{if ($2 == band ) print $0;}' | awk -F"|" '{print $6}' | sort | uniq >${gwldir}/good-gws-combined.txt
+#Checking for past good GW's and setting the station list to them
+if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt && band -ne "p2p"  ]]
+then
+	cat ${gwldir}/good-gws.txt >> ${gwldir}/good-gws-combined.txt
+        for gws in `cat ${gwldir}/good-gws-combined.txt`
+                do grep $gws ${gwldir}/${band}m.txt >> ${gwldir}/gg-${band}m.txt
+        done
+        if [[ -f ${gwldir}/gg-${band}m.txt && -s ${gwldir}/gg-${band}m.txt ]]
+        then
+                echo "Found some Previously connected GWs, trying them now"
+		cat ${gwldir}/gg-${band}m.txt > $station_list_good
+		station_list="$station_list_good"
+        else
+		station_list="$station_list_all"
+        fi
+	#Connecting to good gateways	
+	station_connect "${band}"
+	fails=0
+else
+        echo "No good Gateways"
+	[[ -f ${gwldir}/good-gws-combined.txt && -s ${gwldir}/good-gws-combined.txt ]] && cat ${gwldir}/good-gws-combined.txt > ${gwldir}/good-gws.txt
+	sleep 2
+fi
+
+
+}
 station_connect() {
 	connum=1
 	mcnt=`wc -l $station_list | awk '{print $1}'`
@@ -180,34 +209,19 @@ station_connect() {
 
 fails=0
 check_pat_out
-#Generating Good GWs based on log
-[[ -f ${logdir}/pat_connect-summ.log ]] && cat ${logdir}/pat_connect-summ.log | awk -F"|" '{if ($NF < "1") print $0;}'  | awk -v band=$band -F"|" '{if ($2 == band ) print $0;}' | awk -F"|" '{print $6}' | sort | uniq >${gwldir}/good-gws-combined.txt
-#Checking for past good GW's and setting the station list to them
-if [[ -f ${gwldir}/good-gws.txt && -s ${gwldir}/good-gws.txt && band -ne "p2p"  ]]
+
+#Seeing if Good gw mode is disabled, then trying to connect to good GWs
+if [[ $send_mode != "sggw" || $send_mode2 != "sggw" ]]
 then
-	cat ${gwldir}/good-gws.txt >> ${gwldir}/good-gws-combined.txt
-        for gws in `cat ${gwldir}/good-gws-combined.txt`
-                do grep $gws ${gwldir}/${band}m.txt >> ${gwldir}/gg-${band}m.txt
-        done
-        if [[ -f ${gwldir}/gg-${band}m.txt && -s ${gwldir}/gg-${band}m.txt ]]
-        then
-                echo "Found some Previously connected GWs, trying them now"
-		cat ${gwldir}/gg-${band}m.txt > $station_list_good
-		station_list="$station_list_good"
-        else
-		station_list="$station_list_all"
-        fi
-	#Connecting to good gateways	
-	station_connect "${band}"
-	fails=0
+	good_gws
 else
-        echo "No good Gateways"
-	[[ -f ${gwldir}/good-gws-combined.txt && -s ${gwldir}/good-gws-combined.txt ]] && cat ${gwldir}/good-gws-combined.txt > ${gwldir}/good-gws.txt
-	sleep 2
+	echo "#####################################################"
+	echo "Skipping Good GWs"
+	echo "#####################################################"
 fi
 
-check_pat_out
-#Trying to connect to GW's based on successful connections and their bearing
+
+#Trying to connect to GW's based on successful connections and their bearing, or all GWs 
 gen_mm_bearing
 if [[ $max_bearing == "skip" ]]
 then
