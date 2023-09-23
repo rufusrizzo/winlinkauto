@@ -27,7 +27,8 @@ outboxnum=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
 [[ -z $2 ]] && num_retries=2 || num_retries=$2
 #Setting Receive mode, if it's set
 [[ -z $3 ]] && echo "######Send Mode Set" || send_mode=$3
-[[ -z $4 ]] || send_mode2=$4
+[[ -z $4 ]] && send_mode2="go" || send_mode2=$4
+
 
 # Randomize our station list for fun before each run
 station_list_all=$(mktemp station_list.tmpXXX)
@@ -211,13 +212,13 @@ fails=0
 check_pat_out
 
 #Seeing if Good gw mode is disabled, then trying to connect to good GWs
-if [[ $send_mode != "sggw" || $send_mode2 != "sggw" ]]
+if [[ $send_mode == "sggw" || $send_mode2 == "sggw" ]]
 then
-	good_gws
-else
 	echo "#####################################################"
 	echo "Skipping Good GWs"
 	echo "#####################################################"
+else
+	good_gws
 fi
 
 
