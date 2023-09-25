@@ -18,6 +18,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [X] Build good GW list based on previous connections
 - [X] Add option to skip Good GWs
 - [ ] Installation setup scripts
+- [ ] Check Radio settings, Mode, AGC, Power, Audio BW
+- [ ] Directory to have radio setting files
 - [x] Process Run mgmt scripts
 - [x] Create a way to monitor and run everything
 - [ ] Process Run mgmt config, ie change radios and update start scripts

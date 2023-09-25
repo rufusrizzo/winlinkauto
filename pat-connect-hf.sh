@@ -43,6 +43,13 @@ else
 	pat-gen-stationlist.sh
 	shuf $gwldir/${band}m.txt > ${station_list_all}  
 fi
+#If Skip Good Gateways is set, this will filter them out
+#I've got too many test statements, just touching the files
+touch ${gwldir}/good-gws.txt ${gwldir}/good-gws-logs.txt ${gwldir}/good-gws-combined.txt
+if [[ $send_mode == "sggw" || $send_mode2 == "sggw" ]]
+then
+	egrep -v `echo -n "\"" ; for i in \`cat gwlists/good-gws.txt gwlists/good-gws-combined.txt gwlists/good-gws-logs.txt | sort | uniq\` ; do echo -n "${i}|" ; done ; echo "FILLLLLLLL\""` $gwldir/${band}m.txt > ${station_list_all}
+fi
 
 cleanup() {
     rm station_list.tmp* &> /dev/null
@@ -70,7 +77,7 @@ CONNRCVDALL=`grep -A 1 "Receiving" $LOGFILE | grep -v "Receiving" | grep 100 | w
 ECONNDATE=`grep "QSX" $LOGFILE | awk '{print $1}'`
 ECONNTIME=`grep "QSX" $LOGFILE | awk '{print $2}'`
 ENDOUTBOXNUM=`ls -ltr ${patmailbox}/${mycall}/out | grep -v total | wc -l`
-if [[ $ENDOUTBOXNUM -lt $outboxnum ]]
+if [[ $ENDOUTBOXNUM -lt $outboxnum && $CONNFAILED -gt 0 ]]
 then
 	CONNFAILREASON="Got failure from ARDOP, but some messages were sent"
 	CONNFAILED=0
@@ -237,7 +244,7 @@ else
 	echo "#####################################################"
 	echo "Trying Gateways based on Successful connection Bearings"
 	echo "#####################################################"
-	cat $gwldir/${band}m.txt | awk -v max_bearing=$max_bearing -v min_bearing=$min_bearing '{if ($4 > min_bearing && $4 < max_bearing) print $0;}' > $gwldir/${band}m-filtered.txt
+	cat ${station_list_all} | awk -v max_bearing=$max_bearing -v min_bearing=$min_bearing '{if ($4 > min_bearing && $4 < max_bearing) print $0;}' > $gwldir/${band}m-filtered.txt
 	shuf $gwldir/${band}m-filtered.txt > ${station_list_filtered}  
 	station_list="$station_list_filtered"
 	station_connect "${band}"

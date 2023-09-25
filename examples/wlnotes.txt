@@ -17,6 +17,8 @@ echo "G TUNE" | nc -w 1 localhost 4532
 echo "0xf3" | nc -w 1 localhost 4532
 #Get PTT
 echo "t" | nc -w 1 localhost 4532
+#Get Modes
+echo "m" | nc -w 1 localhost 4532
 #pat packet
 pat connect ax25+agwpe:///KO4CTF-10
 #pat packet with a digipeter
