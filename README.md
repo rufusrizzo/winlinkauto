@@ -14,10 +14,10 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [X] Add good GW check
 - [X] Set pass/fail based on outbox contents, "kind of" it won't attempt if the outbox is empty
 - [X] Collect connection logs
-- [ ] Initial setup configuration scripts
+- [ ] New User Initial setup configuration scripts
 - [X] Build good GW list based on previous connections
 - [X] Add option to skip Good GWs
-- [ ] Installation setup scripts
+- [ ] New OS Installation setup scripts
 - [ ] Check Radio settings, Mode, AGC, Power, Audio BW
 - [ ] Directory to have radio setting files
 - [x] Process Run mgmt scripts
@@ -31,8 +31,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 
 ### Features
 
-- [x] Add P2P scripts
-- [ ] Add P2P scripts, none Winlink Wed
+- [ ] Add P2P scripts
+- [X] Add P2P scripts, none Winlink Wed
 - [ ] Need to rank the Good GWs based on successful sends
 - [ ] Need to rank the Good GWs based on successful send times and the current time
 - [X] Generate GWs from good connections bearing
@@ -46,6 +46,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] Radio detection when using two radios
 - [X] Automate HF and VHF sending for Winlink Wednesday
 - [ ] ICS-213 send scripts
+- [X] ICS-213 send scripts, Winlink Wed
 - [ ] Add Weather based on gridsquare
 - [ ] Add choice for multiple HF bands
 - [ ] Add Tuning between bands
