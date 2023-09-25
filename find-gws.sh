@@ -3,10 +3,10 @@
 #Started by Riley C on 9/23
 if [[ -z $1 ]] 
 then
-	band=$1
-else
 	echo "Enter the band you wish to test: "
 	read band
+else
+	band=$1
 fi
 trap '{ echo "Hey, you pressed Ctrl-C.  Time to quit."; cleanup; exit 1; }' INT
 

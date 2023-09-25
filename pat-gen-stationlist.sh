@@ -1,6 +1,7 @@
 #!/bin/bash
 GWDIR="./gwlists"
 
+pat rmslist -s -b 2m | grep . |tail -n +2 > $GWDIR/2m.txt
 pat rmslist -s -b 10m -m ARDOP | grep . |tail -n +2 > $GWDIR/10m.txt
 pat rmslist -s -b 20m -m ARDOP | grep . |tail -n +2 > $GWDIR/20m.txt
 pat rmslist -s -b 30m -m ARDOP | grep . |tail -n +2 > $GWDIR/30m.txt
