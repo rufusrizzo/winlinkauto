@@ -3,7 +3,6 @@
 #This script will attempt to send a p2P winlink message
 #Started by Riley C on 9/19/2023
 #
-#NEED to add a file check
 if [[ $1 == "help" || $1 == "--help" || $1 == "-help" || $1 == "-h" ]] 
 	then
 		echo
