@@ -13,5 +13,7 @@ AGC=`echo "l AGC" | nc -w 1 localhost 4532`
 PREAMP=`echo "l PREAMP" | nc -w 1 localhost 4532`
 ATT=`echo "l ATT" | nc -w 1 localhost 4532`
 RF=`echo "l RF" | nc -w 1 localhost 4532`
+RFS="${RF:2:2}"
 RFPOWER=`echo "l RFPOWER" | nc -w 1 localhost 4532`
-echo "$RADMODEL|$MODE|$AUDBW|$AGC|$PREAMP|$ATT|$RF|$RFPOWER"
+RFPOWERS="${RFPOWER:2:2}"
+echo "$RADMODEL|$MODE|$AUDBW|$AGC|$PREAMP|$ATT|$RFS|$RF|$RFPOWERS|$RFPOWER"
