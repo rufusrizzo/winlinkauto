@@ -18,9 +18,8 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [X] Build good GW list based on previous connections
 - [X] Add option to skip Good GWs
 - [ ] New OS Installation setup scripts
-- [ ] Check Radio settings, Mode, AGC, Power, Audio BW
-- [ ] SWR monitor process
-- [ ] Directory to have radio setting files
+- [X] Check Radio settings, Mode, AGC, Power, Audio BW
+- [X] Directory to have radio setting files
 - [x] Process Run mgmt scripts
 - [x] Create a way to monitor and run everything
 - [ ] Process Run mgmt config, ie change radios and update start scripts
@@ -32,9 +31,10 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 
 ### Features
 
-- [ ] In find GW script, ignore GW's tested in first run
+- [X] In find GW script, ignore GW's tested in first run
+- [ ] SWR monitor process
 - [ ] Add P2P scripts
-- [X] Add P2P scripts, none Winlink Wed
+- [X] Add P2P scripts, Winlink Wed
 - [ ] Need to rank the Good GWs based on successful sends
 - [ ] Need to rank the Good GWs based on successful send times and the current time
 - [X] Generate GWs from good connections bearing
