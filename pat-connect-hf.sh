@@ -77,7 +77,7 @@ fi
 
 RADMODEL=`echo "0xf3" | nc -w 1 localhost 4532 | grep model | awk '{print $2}'`
 #Checking for a config file
-if [[ `ls -ltr $cfgdir | grep $RADMODEL | wc -l` -ge 1 ]]
+if [[ `ls -ltr $cfgdir/radio | grep $RADMODEL | wc -l` -ge 1 ]]
 then
 	echo "Config file found"
 else
@@ -113,60 +113,60 @@ RF=`echo "l RF" | nc -w 1 localhost 4532`
 RFS="${RF:2:2}"
 RFPOWER=`echo "l RFPOWER" | nc -w 1 localhost 4532`
 RFPOWERS="${RFPOWER:2:2}"
-if [[ -v MODE && $MODE == "`cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $2}'`" ]]
+if [[ -v MODE && $MODE == "`cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $2}'`" ]]
 then
 	echo "Mode is good"
 else
 	echo "Setting mode and BW"
-	echo "M `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $2}'` `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $3}'`" | nc -w 1 localhost 4532
+	echo "M `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $2}'` `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $3}'`" | nc -w 1 localhost 4532
 	sleep 1
 fi
-if [[ -v AUDBW && $AUDBW == "`cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $3}'`" ]]
+if [[ -v AUDBW && $AUDBW == "`cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $3}'`" ]]
 then
 	echo "Audio BW is good"
 else
 	echo "Setting mode and BW"
-	echo "M `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $3}'` `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $3}'`" | nc -w 1 localhost 4532
+	echo "M `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $3}'` `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $3}'`" | nc -w 1 localhost 4532
 	sleep 1
 fi
-if [[ -v AGC && $AGC == "`cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $4}'`" ]]
+if [[ -v AGC && $AGC == "`cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $4}'`" ]]
 then
 	echo "AGC is good"
 else
 	echo "Setting AGC to Auto"
-	echo "L AGC `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $4}'` " | nc -w 1 localhost 4532
+	echo "L AGC `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $4}'` " | nc -w 1 localhost 4532
 	sleep 1
 fi
-if [[ -v PREAMP && $PREAMP == "`cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $5}'`" ]]
+if [[ -v PREAMP && $PREAMP == "`cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $5}'`" ]]
 then
 	echo "PREAMP is good"
 else
 	echo "Turning off the Preamp"
-	echo "L PREAMP `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $5}'` " | nc -w 1 localhost 4532
+	echo "L PREAMP `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $5}'` " | nc -w 1 localhost 4532
 	sleep 1
 fi
-if [[ -v ATT && $ATT == "`cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $6}'`" ]]
+if [[ -v ATT && $ATT == "`cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $6}'`" ]]
 then
 	echo "Attenuator is Off"
 else
 	echo "Turning off the Attenuator"
-	echo "L ATT `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $6}'` " | nc -w 1 localhost 4532
+	echo "L ATT `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $6}'` " | nc -w 1 localhost 4532
 	sleep 1
 fi
-if [[ -v RFS && $RFS -ge "`cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $7}'`" ]]
+if [[ -v RFS && $RFS -ge "`cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $7}'`" ]]
 then
 	echo "RF Gain is good"
 else
 	echo "Trying to set the RF gain"
-	echo "L RF `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $8}'` " | nc -w 1 localhost 4532
+	echo "L RF `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $8}'` " | nc -w 1 localhost 4532
 	sleep 1
 fi
-if [[ -v RFPOWERS && $RFPOWERS -le "`cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $9}'`" ]]
+if [[ -v RFPOWERS && $RFPOWERS -le "`cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $9}'`" ]]
 then
 	echo "RF Power is good"
 else
 	echo "Trying to set the RF Power"
-	echo "L RFPOWER `cat $cfgdir/${RADMODEL}.txt | awk -F"|" '{print $10}'` " | nc -w 1 localhost 4532
+	echo "L RFPOWER `cat $cfgdir/radio/${RADMODEL}.txt | awk -F"|" '{print $10}'` " | nc -w 1 localhost 4532
 	sleep 1
 fi
 }
