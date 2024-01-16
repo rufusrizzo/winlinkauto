@@ -1,0 +1,7 @@
+/etc/systemd/system/
+sudo cp *.service /etc/systemd/system
+cp files to there
+riley@hamey:~/git/winlinkauto/conf/install$ sudo systemctl daemon-reload
+riley@hamey:~/git/winlinkauto/conf/install$ sudo systemctl enable direwolf.service
+
+

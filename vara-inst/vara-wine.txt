@@ -1,0 +1,546 @@
+Script started on 2024-01-03 11:46:28-05:00 [TERM="tmux-256color" TTY="/dev/pts/16" COLUMNS="139" LINES="30"]
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ wget [7mhttp://files.k6eta.com/VARA_Components.zip[27mhttp://files.k6eta.com/VARA_Components.zip
+[?2004l--2024-01-03 11:46:33--  http://files.k6eta.com/VARA_Components.zip
+Resolving files.k6eta.com (files.k6eta.com)... 74.208.236.142, 2607:f1c0:100f:f000::24f
+Connecting to files.k6eta.com (files.k6eta.com)|74.208.236.142|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: http://files.k6eta.com/VARA_components.zip [following]
+--2024-01-03 11:46:33--  http://files.k6eta.com/VARA_components.zip
+Reusing existing connection to files.k6eta.com:80.
+HTTP request sent, awaiting response... 200 OK
+Length: 1513967 (1.4M) [application/zip]
+Saving to: ‘VARA_Components.zip’
+
+VARA_Components.zip                  0%[                                                                ]       0  --.-KB/s               VARA_Components.zip                 28%[=================>                                              ] 416.88K  2.03MB/s               VARA_Components.zip                100%[===============================================================>]   1.44M  5.23MB/s    in 0.3s    
+
+2024-01-03 11:46:34 (5.23 MB/s) - ‘VARA_Components.zip’ saved [1513967/1513967]
+
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ ls -ltr 
+[?2004ltotal 1604
+-rw-r--r-- 1 riley riley 1513967 Dec 24  2019 [0m[01;31mVARA_Components.zip[0m
+-rw-r--r-- 1 riley riley  126383 Dec 20 16:37 inst.log
+-rw-r--r-- 1 riley riley       0 Jan  3 11:46 vara-wine.txt
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ unzip [7mVARA_Components.zip[27mVARA_Components.zip
+[?2004lArchive:  VARA_Components.zip
+   creating: Put_in_System32/
+  inflating: Put_in_System32/cdosys.dll  
+   creating: __MACOSX/
+   creating: __MACOSX/Put_in_System32/
+  inflating: __MACOSX/Put_in_System32/._cdosys.dll  
+  inflating: Put_in_System32/MSCHRT20.OCX  
+  inflating: __MACOSX/Put_in_System32/._MSCHRT20.OCX  
+  inflating: Put_in_System32/MSCOMCTL.OCX  
+  inflating: __MACOSX/Put_in_System32/._MSCOMCTL.OCX  
+  inflating: Put_in_System32/MSCOMM32.OCX  
+  inflating: __MACOSX/Put_in_System32/._MSCOMM32.OCX  
+  inflating: Put_in_System32/mswinsck.ocx  
+  inflating: __MACOSX/Put_in_System32/._mswinsck.ocx  
+  inflating: Put_in_System32/pdh.dll  
+  inflating: __MACOSX/Put_in_System32/._pdh.dll  
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ ls -ltr 
+[?2004ltotal 1612
+drwxr-xr-x 2 riley riley    4096 Mar 20  2018 [0m[01;34mPut_in_System32[0m
+drwxrwxr-x 3 riley riley    4096 Mar 23  2018 [01;34m__MACOSX[0m
+-rw-r--r-- 1 riley riley 1513967 Dec 24  2019 [01;31mVARA_Components.zip[0m
+-rw-r--r-- 1 riley riley  126383 Dec 20 16:37 inst.log
+-rw-r--r-- 1 riley riley       0 Jan  3 11:46 vara-wine.txt
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ wget [7mhttps://mega.nz/file/2K43BKbJ#k-4ofiezKA_UlPqlapEzYWHv_AG9V_KVswjMF0en3zY[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Chttps://mega.nz/file/2K43BKbJ#k-4ofiezKA_UlPqlapEzYWHv_AG9V_KVswjMF0en3zY
+[?2004l--2024-01-03 11:47:21--  https://mega.nz/file/2K43BKbJ
+Resolving mega.nz (mega.nz)... 31.216.145.5, 31.216.144.5, 2a0b:e46:1:145::5, ...
+Connecting to mega.nz (mega.nz)|31.216.145.5|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2221 (2.2K) [text/html]
+Saving to: ‘2K43BKbJ’
+
+2K43BKbJ                             0%[                                                                ]       0  --.-KB/s               2K43BKbJ                           100%[===============================================================>]   2.17K  --.-KB/s    in 0s      
+
+2024-01-03 11:47:22 (80.8 MB/s) - ‘2K43BKbJ’ saved [2221/2221]
+
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ rm 2k[KK43BKbJ 
+[?2004l[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ pwd
+[?2004l/home/riley/git/winlinkauto/vara-inst
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ cd /home/riley/Desktop/ham/winlink/vara/current/
+[?2004l[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ ls -ltr 
+[?2004ltotal 23912
+-rwxr-xr-x 1 riley riley  778800 Dec  1  2022 [0m[01;32m'VARA Chat setup (Run as Administrator).exe'[0m
+-rwxr-xr-x 1 riley riley 4076944 Jan 14  2023 [01;32m'VARA setup (Run as Administrator).exe'[0m
+-rwxr-xr-x 1 riley riley 6021688 Jan 17  2023 [01;32m'VARA FM setup (Run as Administrator).exe'[0m
+-rw-r--r-- 1 riley riley 4499993 Jan  3 11:48 [01;31m'VARA HF v4.8.1 Setup.zip'[0m
+-rw-r--r-- 1 riley riley 5983086 Jan  3 11:48 [01;31m'VARA FM v4.3.2 Setup.zip'[0m
+-rw-r--r-- 1 riley riley 2021130 Jan  3 11:49 [01;31m'VARA SAT v4.4.0 Setup.zip'[0m
+-rw-r--r-- 1 riley riley  757592 Jan  3 11:49 [01;31m'VARA Chat v1.3.6 setup.zip'[0m
+-rw-r--r-- 1 riley riley  330025 Jan  3 11:49 [01;31m'VARA Terminal v1.2.0 setup.zip'[0m
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ unzip VARA\ *
+[?2004lArchive:  VARA Chat setup (Run as Administrator).exe
+  End-of-central-directory signature not found.  Either this file is not
+  a zipfile, or it constitutes one disk of a multi-part archive.  In the
+  latter case the central directory and zipfile comment will be found on
+  the last disk(s) of this archive.
+note:  VARA Chat setup (Run as Administrator).exe may be a plain executable, not an archive
+unzip:  cannot find zipfile directory in one of VARA Chat setup (Run as Administrator).exe or
+        VARA Chat setup (Run as Administrator).exe.zip, and cannot find VARA Chat setup (Run as Administrator).exe.ZIP, period.
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ unzip VARA\ *[KHF\ v4.8.1\ Setup.zip 
+[?2004lArchive:  VARA HF v4.8.1 Setup.zip
+replace VARA setup (Run as Administrator).exe? [y]es, [n]o, [A]ll, [N]one, [r]ename: y
+  inflating: VARA setup (Run as Administrator).exe  
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ unzip VARA\ HF\ v4.8.1\ Setup.zip [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KFM\ v4.3.2\ Setup.zip 
+[?2004lArchive:  VARA FM v4.3.2 Setup.zip
+replace VARA FM setup (Run as Administrator).exe? [y]es, [n]o, [A]ll, [N]one, [r]ename: y
+  inflating: VARA FM setup (Run as Administrator).exe  
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ unzip VARA\ FM\ v4.3.2\ Setup.zip [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KSAT\ v4.4.0\ Setup.zip 
+[?2004lArchive:  VARA SAT v4.4.0 Setup.zip
+  inflating: VARA SAT setup (Run as Administrator).exe  
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ unzip VARA\ SAT\ v4.4.0\ Setup.zip [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KChat\ v1.3.6\ setup.zip 
+[?2004lArchive:  VARA Chat v1.3.6 setup.zip
+replace VARA Chat setup (Run as Administrator).exe? [y]es, [n]o, [A]ll, [N]one, [r]ename: y
+  inflating: VARA Chat setup (Run as Administrator).exe  
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ unzip VARA\ Chat\ v1.3.6\ setup.zip [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KTerminal\ v1.2.0\ setup.zip 
+[?2004lArchive:  VARA Terminal v1.2.0 setup.zip
+  inflating: VARA Terminal setup (Run as Administrator).exe  
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ ls -ltr 
+[?2004ltotal 26680
+-rw-r--r-- 1 riley riley  353278 Mar 11  2023 'VARA Terminal setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley  780788 Nov 11 13:49 'VARA Chat setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 4522638 Jan  1 15:54 'VARA setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 6005492 Jan  1 15:56 'VARA FM setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 2044128 Jan  1 15:57 'VARA SAT setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 4499993 Jan  3 11:48 [0m[01;31m'VARA HF v4.8.1 Setup.zip'[0m
+-rw-r--r-- 1 riley riley 5983086 Jan  3 11:48 [01;31m'VARA FM v4.3.2 Setup.zip'[0m
+-rw-r--r-- 1 riley riley 2021130 Jan  3 11:49 [01;31m'VARA SAT v4.4.0 Setup.zip'[0m
+-rw-r--r-- 1 riley riley  757592 Jan  3 11:49 [01;31m'VARA Chat v1.3.6 setup.zip'[0m
+-rw-r--r-- 1 riley riley  330025 Jan  3 11:49 [01;31m'VARA Terminal v1.2.0 setup.zip'[0m
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ cp *.zip ..[1P[1P[1@m[1@v
+[?2004l[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ ls -ltr 
+[?2004ltotal 13400
+-rw-r--r-- 1 riley riley  353278 Mar 11  2023 'VARA Terminal setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley  780788 Nov 11 13:49 'VARA Chat setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 4522638 Jan  1 15:54 'VARA setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 6005492 Jan  1 15:56 'VARA FM setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 2044128 Jan  1 15:57 'VARA SAT setup (Run as Administrator).exe'
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ pwd
+[?2004l/home/riley/Desktop/ham/winlink/vara/current
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ cd -
+[?2004l/home/riley/git/winlinkauto/vara-inst
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ ls -ltr 
+[?2004ltotal 1620
+drwxr-xr-x 2 riley riley    4096 Mar 20  2018 [0m[01;34mPut_in_System32[0m
+drwxrwxr-x 3 riley riley    4096 Mar 23  2018 [01;34m__MACOSX[0m
+-rw-r--r-- 1 riley riley 1513967 Dec 24  2019 [01;31mVARA_Components.zip[0m
+-rw-r--r-- 1 riley riley  126383 Dec 20 16:37 inst.log
+-rw-r--r-- 1 riley riley    8192 Jan  3 11:51 vara-wine.txt
+[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ cp Put_in_System32/* ~/.wine/
+dosdevices/        system.reg         userdef.reg        winetricks.log     
+drive_c/           .update-timestamp  user.reg           wrapper.cfg        
+[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ cp Put_in_System32/* ~/.wine/drive_c/
+ProgramData/   Program Files/ users/         VARA/          VARA FM/       windows/       
+[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ cp Put_in_System32/* ~/.wine/drive_c/winm[Kdows/system
+system/     system32/   system.ini  
+[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ cp Put_in_System32/* ~/.wine/drive_c/windows/system32/
+[?2004l[?2004h[01;32mriley@hamey[00m:[01;34m~/git/winlinkauto/vara-inst[00m$ cd -
+[?2004l/home/riley/Desktop/ham/winlink/vara/current
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ [7mwine[27mwine VARA\ Hf[K[K
+VARA Chat setup (Run as Administrator).exe      VARA setup (Run as Administrator).exe
+VARA FM setup (Run as Administrator).exe        VARA Terminal setup (Run as Administrator).exe
+VARA SAT setup (Run as Administrator).exe       
+[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ wine VARA\ setup\ \(Run\ as\ Administrator\).exe 
+[?2004l007c:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+007c:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+007c:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+007c:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0108:fixme:imm:ImeSetActiveContext (00010088, 1): stub
+0084:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+0108:fixme:imm:ImmReleaseContext (00010082, 00010088): stub
+0084:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+0108:fixme:win:DisableProcessWindowsGhosting : stub
+0108:err:richedit:ReadStyleSheet skipping optional destination
+0108:err:richedit:ReadStyleSheet skipping optional destination
+0108:fixme:sfc:SfcIsFileProtected (00000000, L"C:\\VARA\\VARA Install.exe") stub
+0118:fixme:olepicture:OleLoadPictureEx 021BE264, 1414, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FB10, partially implemented.
+0118:fixme:olepicture:OLEPictureImpl_SaveAsFile (00433E80)->(01081880, 0, 00000000), hacked stub.
+0118:fixme:imm:ImeSetActiveContext (000200F6, 1): stub
+0118:fixme:imm:ImmReleaseContext (00010128, 000200F6): stub
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ wine VARA\ setup\ \(Run\ as\ Administrator\).exe [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KFM\ setup\ \(Run\ as\ Administrator\).exe 
+[?2004l0048:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0108:fixme:imm:ImeSetActiveContext (00010088, 1): stub
+0108:fixme:imm:ImmReleaseContext (00010082, 00010088): stub
+0048:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+0048:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+0108:fixme:win:DisableProcessWindowsGhosting : stub
+0108:err:richedit:ReadStyleSheet skipping optional destination
+0108:err:richedit:ReadStyleSheet skipping optional destination
+0108:fixme:sfc:SfcIsFileProtected (00000000, L"C:\\VARA FM\\VARA Install.exe") stub
+0118:fixme:olepicture:OleLoadPictureEx 021BE264, 1414, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FB10, partially implemented.
+0118:fixme:olepicture:OLEPictureImpl_SaveAsFile (00433EF8)->(01081888, 0, 00000000), hacked stub.
+0118:fixme:imm:ImeSetActiveContext (000200F6, 1): stub
+0118:fixme:imm:ImmReleaseContext (00010128, 000200F6): stub
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ ls -ltr 
+[?2004ltotal 13400
+-rw-r--r-- 1 riley riley  353278 Mar 11  2023 'VARA Terminal setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley  780788 Nov 11 13:49 'VARA Chat setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 4522638 Jan  1 15:54 'VARA setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 6005492 Jan  1 15:56 'VARA FM setup (Run as Administrator).exe'
+-rw-r--r-- 1 riley riley 2044128 Jan  1 15:57 'VARA SAT setup (Run as Administrator).exe'
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ ls -ltr [45@wine VARA\ FM\ setup\ \(Run\ as\ Administrator\).exe[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KChat\ setup\ \(Run\ as\ Administrator\).exe 
+[?2004l0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0050:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0050:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+0050:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+0108:fixme:imm:ImeSetActiveContext (00010088, 1): stub
+0108:fixme:imm:ImmReleaseContext (00010082, 00010088): stub
+0108:fixme:win:DisableProcessWindowsGhosting : stub
+0108:fixme:sfc:SfcIsFileProtected (00000000, L"C:\\VARA\\VARA Chat.exe") stub
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ wine VARA\ Chat\ setup\ \(Run\ as\ Administrator\).exe [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KTerminal\ setup\ \(Run\ as\ Administrator\).exe 
+[?2004l0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0050:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0050:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+0050:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+0108:fixme:imm:ImeSetActiveContext (00010088, 1): stub
+0108:fixme:imm:ImmReleaseContext (00010082, 00010088): stub
+0108:fixme:win:DisableProcessWindowsGhosting : stub
+0108:fixme:sfc:SfcIsFileProtected (00000000, L"C:\\VARA\\VARA Terminal.exe") stub
+[?2004h[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ cd ~/.wine/drive_c/VARA
+VARA/    VARA FM/ 
+[01;32mriley@hamey[00m:[01;34m~/Desktop/ham/winlink/vara/current[00m$ cd ~/.wine/drive_c/VARA_F[K[K\ FM/
+[?2004l[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ ls -ltr 
+[?2004ltotal 7032
+-rwxr-xr-x 1 riley riley   28672 Nov 26  2019 [0m[01;32m'VARA Install.exe'[0m
+-rw-r--r-- 1 riley riley  376497 Dec  7  2020 'VARA FM 4.0.pdf'
+-rw-r--r-- 1 riley riley   27258 Dec 10  2020 'VARA FM v4.0.0 Levels.pdf'
+-rw-r--r-- 1 riley riley    8466 Aug 10  2021  License.rtf
+-rw-r--r-- 1 riley riley 1984674 Oct 15  2021  VARAFMNarrow.dat
+-rw-r--r-- 1 riley riley 3301898 Oct 15  2021  VARAFMWide.dat
+-rw-r--r-- 1 riley riley    1218 Dec 20 17:14  VARAFM.ini
+-rw-r--r-- 1 riley riley     797 Dec 20 17:19  VARAFM.log
+-rwxr-xr-x 1 riley riley 1441792 Jan  1 15:47  [01;32mVARAFM.exe[0m
+-rw-r--r-- 1 riley riley    6815 Jan  1 15:54  ChangeLog.txt
+drwxr-xr-x 2 riley riley    4096 Jan  3 11:54  [01;34mOCX[0m
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wine VARA
+VARAFM.exe        VARA Install.exe  
+[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wine VARAFM.exe 
+[?2004l0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0050:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 7366, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FB10, partially implemented.
+0024:fixme:heap:RtlCompactHeap handle 00570000, flags 0 stub!
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F2A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F27E8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F2888, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5AA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5B48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5D28, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5DC8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5E68, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5F08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6070, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6110, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6278, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6308, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6398, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6428, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6580, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6620, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F66B0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6808, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6AA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6B48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6BD8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6C78, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6D18, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6DA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6E48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047C5C28)->(011E2E58, 0, 00000000), hacked stub.
+ALSA lib dlmisc.c:337:(snd_dlobj_cache_get0) Cannot open shared library libasound_module_pcm_pipewire.so (/lib/i386-linux-gnu/alsa-lib/libasound_module_pcm_pipewire.so: cannot open shared object file: No such file or directory)
+ALSA lib dlmisc.c:337:(snd_dlobj_cache_get0) Cannot open shared library libasound_module_pcm_pipewire.so (/lib/i386-linux-gnu/alsa-lib/libasound_module_pcm_pipewire.so: cannot open shared object file: No such file or directory)
+0050:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+0050:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+0024:fixme:imm:ImeSetActiveContext (00020048, 1): stub
+0024:fixme:imm:ImmReleaseContext (00010114, 00020048): stub
+0024:fixme:ntdll:EtwRegisterTraceGuidsW   register trace class {62841f33-387a-4674-94a4-485c418c57ee}
+wine: Call from 7BC2BBF0 to unimplemented function api-ms-win-perf-legacy-l1-1-0.dll.PerfEnumerateCounterSet, aborting
+wine: Unimplemented function api-ms-win-perf-legacy-l1-1-0.dll.PerfEnumerateCounterSet called at address 7BC2BBF0 (thread 0024), starting debugger...
+]0;Wine Debugger0118:fixme:imm:ImeSetActiveContext (00010146, 1): stub
+0118:fixme:imm:ImmReleaseContext (00010150, 00010146): stub
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:fixme:dbghelp:elf_search_auxv can't find symbol in module
+0118:err:dbghelp:pe_load_dbg_file Couldn't find .DBG file "DLL\\MSVBVM60.dbg" (L"C:\\VARA FM")
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ [7mwget ‘http://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe’ [27m[7m-[27m[7mO ~/Downloads/nt4pdhdll.exe[27mM[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wget ‘http://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe’ -O ~/Downloads/nt4pdhdll.exe[1Pnt4pdhdll.exe[1Pnt4pdhdll.exe[1Pnt4pdhdll.exe[1Pnt4pdhdll.exe[C[C[C[C[C[C[C[C[C[C[C[1Pnt4pdhdll.exe[C[C[C[C[C[C[C[C[C[C[1Pnt4pdhdll.exe[C[C[C[C[C[C[C[C[C[1Pt4pdhdll.exe[C[C[C[C[C[C[C[C[1Pnt4pdhdll.exe[C[C[C[C[C[C[C[1Pnt4pdhdll.exe[C[C[C[C[C[C[1Pnt4pdhdll.exe[C[C[C[C[C[1Pnt4pdhdll.exe[C[C[C[C[1Pnt4pdhdll.exe[C[C[C
+[?2004l‘http://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe’: Scheme missing.
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wget ‘http://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe’ -O nt4pdhdll.exe[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K.exe'
+[?2004l[?2004h> ^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wget ‘http://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe'[K"[1Phttp://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe"
+[?2004l[?2004h> '
+[?2004l[?2004h> ^C[?2004l[?2004h[?2004l
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wget http://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe"
+'[K[KM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[?2004l--2024-01-03 12:04:56--  http://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe
+Resolving download.microsoft.com (download.microsoft.com)... 184.31.54.9, 2600:1408:c400:18b::317f, 2600:1408:c400:193::317f
+Connecting to download.microsoft.com (download.microsoft.com)|184.31.54.9|:80... connected.
+HTTP request sent, awaiting response... 302 Moved Temporarily
+Location: https://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe [following]
+--2024-01-03 12:04:56--  https://download.microsoft.com/download/winntsrv40/update/5.0.2195.2668/nt4/en-us/nt4pdhdll.exe
+Connecting to download.microsoft.com (download.microsoft.com)|184.31.54.9|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 139104 (136K) [application/octet-stream]
+Saving to: ‘nt4pdhdll.exe.1’
+
+nt4pdhdll.exe.1                      0%[                                                                ]       0  --.-KB/s               nt4pdhdll.exe.1                    100%[===============================================================>] 135.84K  --.-KB/s    in 0.05s   
+
+2024-01-03 12:04:57 (2.61 MB/s) - ‘nt4pdhdll.exe.1’ saved [139104/139104]
+
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wine [7mnt4pdhdll.exe.1[27mnt4pdhdll.exe.1
+[?2004l0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0050:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0024:fixme:imm:ImeSetActiveContext (0001004E, 1): stub
+0024:fixme:imm:ImmReleaseContext (00010056, 0001004E): stub
+0050:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+0050:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ cp ~/.wine/drive_c/users/riley/[7mpdh.dll[27mpdh.dll [7m~/.wine/drive_c/windows/system[27m~/.wine/drive_c/windows/system\ 32[K[K[K[K
+system/     system32/   system.ini  
+[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ cp ~/.wine/drive_c/users/riley/pdh.dll ~/.wine/drive_c/windows/system32/
+[?2004lcp: cannot stat '/home/riley/.wine/drive_c/users/riley/pdh.dll': No such file or directory
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ cp ~/.wine/drive_c/users/riley/pdh.dll ~/.wine/drive_c/windows/system32/[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K
+AppData/     Desktop/     Downloads/   Links/       Pictures/    Searches/    Videos/      
+Contacts/    Documents/   Favorites/   Music/       Saved Games/ Temp/        
+[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ cp ~/.wine/drive_c/users/riley/Temp/
+EULA.TXT    pdh.dbg     pdh.dll     pdh.pdb     Redist.txt  
+[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ cp ~/.wine/drive_c/users/riley/Temp/[7mpdh.dll[27mpdh.dll [7m~/.wine/drive_c/windows/system32/[27m~/.wine/drive_c/windows/system32/
+[?2004l[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ cp ~/.wine/drive_c/users/riley/Temp/pdh.dll ~/.wine/drive_c/windows/system32/[C[1P ~/.wine/drive_c/windows/system32/[1P ~/.wine/drive_c/windows/system32/[1P ~/.wine/drive_c/windows/system32/* ~/.wine/drive_c/windows/system32/
+[?2004l[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wine VARAFM.exe 
+[?2004l0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+006c:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0084:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 7366, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FB10, partially implemented.
+0024:fixme:heap:RtlCompactHeap handle 00570000, flags 0 stub!
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F2A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F27E8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F2888, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5AA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5B48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5D28, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5DC8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5E68, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5F08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6070, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6110, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6278, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6308, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6398, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6428, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6580, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6620, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F66B0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6808, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6AA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6B48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6BD8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6C78, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6D18, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6DA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6E48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047C5C28)->(011E2E58, 0, 00000000), hacked stub.
+ALSA lib dlmisc.c:337:(snd_dlobj_cache_get0) Cannot open shared library libasound_module_pcm_pipewire.so (/lib/i386-linux-gnu/alsa-lib/libasound_module_pcm_pipewire.so: cannot open shared object file: No such file or directory)
+ALSA lib dlmisc.c:337:(snd_dlobj_cache_get0) Cannot open shared library libasound_module_pcm_pipewire.so (/lib/i386-linux-gnu/alsa-lib/libasound_module_pcm_pipewire.so: cannot open shared object file: No such file or directory)
+006c:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+006c:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+0024:fixme:imm:ImeSetActiveContext (00020048, 1): stub
+0024:fixme:imm:ImmReleaseContext (00010114, 00020048): stub
+0024:fixme:advapi:RegisterEventSourceW ((null),L"PDH"): stub
+0024:fixme:olepicture:OleLoadPictureEx 023290C4, 1414, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F334, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023290C4, 66926, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F304, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 023290C4, 6482, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F304, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023290C4, 6491, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F304, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (080DDD00)->(011E5310, 0, 00000000), hacked stub.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047FFA60)->(011E5310, 0, 00000000), hacked stub.
+0024:fixme:olepicture:OleLoadPictureEx 0232C72C, 774, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F334, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (080E77B8)->(011E4118, 0, 00000000), hacked stub.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047F7648)->(011E4118, 0, 00000000), hacked stub.
+0024:err:ole:TLB_ReadTypeLib Loading of typelib L"msdatsrc.tlb" failed with error 2
+0024:err:ole:userdefined_to_variantvt Could not get typeinfo of hreftype 9d for VT_USERDEFINED, hr 0x80029c4a.
+0024:err:ole:TLB_ReadTypeLib Loading of typelib L"msdatsrc.tlb" failed with error 2
+0024:err:ole:userdefined_to_variantvt Could not get typeinfo of hreftype 9d for VT_USERDEFINED, hr 0x80029c4a.
+0024:fixme:advapi:DeregisterEventSource (CAFE4242) stub
+[?2004h[01;32mriley@hamey[00m:[01;34m~/.wine/drive_c/VARA FM[00m$ wine VARAFM.exe 
+[?2004l0088:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0050:err:vulkan:wine_vk_init Failed to load libvulkan.so.1.
+0088:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0088:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0088:fixme:hid:handle_IRP_MN_QUERY_ID Unhandled type 00000005
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 7366, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FB10, partially implemented.
+0024:fixme:heap:RtlCompactHeap handle 00570000, flags 0 stub!
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F2A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F27E8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F2888, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5AA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5B48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5D28, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5DC8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5E68, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F5F08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6070, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6110, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6278, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6308, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6398, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6428, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6580, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6620, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F66B0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6808, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6A08, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6AA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6B48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6BD8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6C78, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6D18, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6DA8, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 0, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 20, 20, 0, 047F6E48, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 023211C4, 33362, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021FAE0, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047C5C28)->(011E2E58, 0, 00000000), hacked stub.
+ALSA lib dlmisc.c:337:(snd_dlobj_cache_get0) Cannot open shared library libasound_module_pcm_pipewire.so (/lib/i386-linux-gnu/alsa-lib/libasound_module_pcm_pipewire.so: cannot open shared object file: No such file or directory)
+ALSA lib dlmisc.c:337:(snd_dlobj_cache_get0) Cannot open shared library libasound_module_pcm_pipewire.so (/lib/i386-linux-gnu/alsa-lib/libasound_module_pcm_pipewire.so: cannot open shared object file: No such file or directory)
+0050:fixme:imm:ImeSetActiveContext (00010026, 0): stub
+0050:fixme:imm:ImmReleaseContext (00010020, 00010026): stub
+0024:fixme:imm:ImeSetActiveContext (00020048, 1): stub
+0024:fixme:imm:ImmReleaseContext (00010114, 00020048): stub
+0024:fixme:advapi:RegisterEventSourceW ((null),L"PDH"): stub
+0024:fixme:olepicture:OleLoadPictureEx 02328C8C, 774, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0F4, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (0810FA38)->(011E3D28, 0, 00000000), hacked stub.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047F7648)->(011E3D28, 0, 00000000), hacked stub.
+0024:fixme:olepicture:OleLoadPictureEx 02329A1C, 3270, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0F4, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 02329A1C, 20536, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 02329A1C, 8559, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (08113458)->(011E4728, 0, 00000000), hacked stub.
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:win:AnimateWindow partial stub
+0024:fixme:olepicture:OleLoadPictureEx 02329A1C, 3270, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0F4, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 02329A1C, 20536, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 02329A1C, 8559, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (0482D188)->(011E4728, 0, 00000000), hacked stub.
+0024:fixme:comm:set_queue_size insize 1024 outsize 512 unimplemented stub
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 1414, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0F4, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 66926, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 6482, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 6491, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (0810F9A8)->(011E4F20, 0, 00000000), hacked stub.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047FFA60)->(011E4F20, 0, 00000000), hacked stub.
+0134:fixme:imm:ImeSetActiveContext (00040164, 1): stub
+0134:fixme:imm:ImmReleaseContext (00050160, 00040164): stub
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 1414, 0, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0F4, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 66926, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:wincodecs:jpeg_decoder_get_metadata_blocks stub
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 6482, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:olepicture:OleLoadPictureEx 0232A144, 6491, 1, {7bf80980-bf32-101a-8bbb-00aa00300cab}, 0, 0, 0, 0021F0C4, partially implemented.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (0482C328)->(011E4F20, 0, 00000000), hacked stub.
+0024:fixme:olepicture:OLEPictureImpl_SaveAsFile (047FFA60)->(011E4F20, 0, 00000000), hacked stub.
+0024:err:ole:TLB_ReadTypeLib Loadi
