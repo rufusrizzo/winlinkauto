@@ -172,15 +172,15 @@ fi
 }
 parser() {
 LOGFILE="${logdir}/${GWCALL}-connectlog-${date}.log"
-CONNFAILREASON=`egrep -i "nable to establish connection to remote|Exchange failed|i/o timeout" $LOGFILE  | awk -F":" '{print $4}' | tail -1`
-CONNFAILED=`egrep -i "nable to establish connection to remote|Exchange failed|i/o timeout" $LOGFILE  | wc -l`
+CONNFAILREASON=`egrep -i "nable to establish connection to remote|Exchange failed|i/o timeout|ARDOP TNC initialization failed:" $LOGFILE  | awk -F":" '{print $4}' | tail -1`
+CONNFAILED=`egrep -i "nable to establish connection to remote|Exchange failed|i/o timeout|ARDOP TNC initialization failed:" $LOGFILE  | wc -l`
 #This can be used for debug
 #[[ $CONNFAILED -ge 1 ]] || cp $LOGFILE ${logdir}/good-$date.log
 CONNDATE=`grep "Connected" $LOGFILE | awk '{print $1}'`
 CONNTIME=`grep "Connected" $LOGFILE | awk '{print $2}'`
 CONNGW=`grep "Connected" $LOGFILE | awk '{print $5}'`
-CONNPROTO=`grep "Connected" $LOGFILE | awk -F"\(|\)" '{print $2}'`
-COONNGWLOC=`grep "daily minutes" $LOGFILE | awk -F"\(|\)" '{print $2}'`
+CONNPROTO=`grep "Connected" $LOGFILE | awk -F"\(|\)" '{print $2}' &> /dev/null`
+COONNGWLOC=`grep "daily minutes" $LOGFILE | awk -F"\(|\)" '{print $2}' &> /dev/null`
 CONNXMIT=`grep "Transmitting" $LOGFILE | wc -l`
 CONNRCVD=`grep "Receiving" $LOGFILE | wc -l`
 CONNXMITALL=`grep -A 1 "Transmitting" $LOGFILE | grep -v "Transmitting" | grep 100 | wc -l`

@@ -25,3 +25,7 @@ pat connect ax25+agwpe:///KO4CTF-10
 pat connect ax25+agwpe:///KB4OLM-5/KO4CTF-10
 #I can't remember the ignore
 tar cvfz winlinkauto.tgz --exclude='winlinkauto/.git' winlinkauto
+#have a second tmux session so you can watch different windows
+tmux new-session -s winlinkauto2 -t winlinkauto
+#GLAWN checkin
+./pat-sender.sh n "GLAWN CHECKIN HF" "KF4EMZ, Riley, Waynesboro, Augusta, VA, USA" "KB8RCR, riley@netandnix.net"
