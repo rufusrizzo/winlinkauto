@@ -266,7 +266,6 @@ then
                 echo "Found some Previously connected GWs, trying them now"
 		cat ${gwldir}/gg-${band}m.txt > $station_list_good
 		station_list="$station_list_good"
-		return
 	else
 		return
         fi
@@ -278,7 +277,7 @@ else
 	[[ -f ${gwldir}/good-gws-combined.txt && -s ${gwldir}/good-gws-combined.txt ]] && cat ${gwldir}/good-gws-combined.txt > ${gwldir}/good-gws.txt
 	sleep 2
 fi
-
+return
 
 }
 station_connect() {
@@ -291,7 +290,7 @@ station_connect() {
 	echo "Connection attempt $connum of $mcnt "
 	echo "Run number $runnum "
 	echo "#####################################################"
-        CALL=$(echo $line |awk '{print $11}')
+        CALL=$(echo $line |awk '{print $10}')
 	GWCALL=$(echo $line |awk '{print $1}')
 	GWGRID=$(echo $line |awk '{print $2}')
 	GWDIST=$(echo $line |awk '{print $3}')
@@ -300,9 +299,10 @@ station_connect() {
 	GWSPD=$(echo $line |awk '{print $6}')
 	GWFREQ=$(echo $line |awk '{print $7}')
         date=$(date +%F"_"%H":"%M":"%S)
-        #pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log
-  	echo ${CALL} | tee -a ${logdir}/vara-debug.log
-        pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log | tee -a ${logdir}/vara-debug.log
+	echo "Bearing: $GWBEAR , Distance: $GWDIST , Grid: $GWGRID "
+        pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log
+  	#echo ${CALL} | tee -a ${logdir}/vara-debug.log
+        #pat connect ${CALL} | tee ${logdir}/${GWCALL}-connectlog-${date}.log | tee -a ${logdir}/vara-debug.log
 	#Parsing the connection log
 	parser
         RESULT=`tail -1 ${logdir}/pat_connect-summ.log | awk -F "|" '{print $NF}'`

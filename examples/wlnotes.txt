@@ -29,3 +29,6 @@ tar cvfz winlinkauto.tgz --exclude='winlinkauto/.git' winlinkauto
 tmux new-session -s winlinkauto2 -t winlinkauto
 #GLAWN checkin
 ./pat-sender.sh n "GLAWN CHECKIN HF" "KF4EMZ, Riley, Waynesboro, Augusta, VA, USA" "KB8RCR, riley@netandnix.net"
+#VARA
+wine ~/.wine/drive_c/VARA\ FM/VARAFM.exe
+
