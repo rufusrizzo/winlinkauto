@@ -4,10 +4,12 @@ After=network.target
 
 [Service]
 Type=simple
-User=riley
+User=winlinkauto
 Group=winlinkauto
-ExecStart=bash -c "/usr/local/bin/winlinkauto/ardopc/piardopc  -l /var/log/winlinkauto/ardop 8515 plughw:1,0 plughw:1,0"
-ExecStop=bash -c "killall piardopc"
+#ExecStart=bash -c "/usr/local/bin/winlinkauto/ardopc/ardopc  -l /var/log/winlinkauto/ardop 8515 plughw:2,0 plughw:2,0"
+ExecStart=bash -c "/usr/local/bin/winlinkauto/ardopc/ardopc64  -l /var/log/winlinkauto/ardop 8515 plughw:2,0 plughw:2,0"
+#ExecStart=bash -c "/usr/bin/ardop -l /var/log/winlinkauto/ardop 8515 plughw:2,0 plughw:2,0"
+ExecStop=bash -c "killall ardopc"
 StandardOutput=file:/var/log/winlinkauto/ardop.log
 StandardError=file:/var/log/winlinkauto/ardop.log
 Restart=always

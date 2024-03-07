@@ -8,8 +8,12 @@ User=winlinkauto
 Group=winlinkauto
 ExecStart=bash -c "/usr/bin/direwolf -c /usr/local/etc/winlinkauto/direwolf.conf"
 ExecStop=bash -c "killall direwolf"
-StandardOutput=file:/var/log/winlinkauto/direwolf.log
-StandardError=file:/var/log/winlinkauto/direwolf.log
+#StandardOutput=file:/var/log/winlinkauto/direwolf.log
+#StandardError=file:/var/log/winlinkauto/direwolf.log
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=direwolf
+
 Restart=always
 
 [Install]
