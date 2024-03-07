@@ -1,0 +1,13 @@
+  groupadd winlinkauto
+  useradd -M -g winlinkauto -G tty,pulse,pulse-access,audio,dialout --system winlinkauto
+for i in `cat dir-list.txt` ; do mkdir $i ; chown winlinkauto:winlinkauto $i ; done
+
+  528  cp -r bin/winlinkauto/ /usr/local/bin
+  529  cp -r etc/winlinkauto/ /etc
+  530  chown winlinkauto:winlinkauto /usr/local/bin/winlinkauto/
+  531  chown winlinkauto:winlinkauto /etc/winlinkauto/
+
+  535  cp *.service /etc/systemd/system/
+  536  for i in rigctl pat direwolf ardop ; do systemctl enable $i.service ; systemctl daemon-reload ; service $i status ; done 
+sudo -u riley mkdir -p  /home/riley/.config/pat
+copy pat config
