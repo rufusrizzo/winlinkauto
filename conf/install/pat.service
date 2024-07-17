@@ -8,9 +8,11 @@ User=riley
 Group=winlinkauto
 ExecStart=bash -c "/usr/bin/pat http"
 ExecStop=bash -c "killall pat"
-StandardOutput=file:/var/log/winlinkauto/pat.log
-StandardError=file:/var/log/winlinkauto/pat.log
 Restart=always
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=patwinlink
+
 
 [Install]
 WantedBy=multi-user.target

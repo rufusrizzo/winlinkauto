@@ -31,4 +31,23 @@ tmux new-session -s winlinkauto2 -t winlinkauto
 ./pat-sender.sh n "GLAWN CHECKIN HF" "KF4EMZ, Riley, Waynesboro, Augusta, VA, USA" "KB8RCR, riley@netandnix.net"
 #VARA
 wine ~/.wine/drive_c/VARA\ FM/VARAFM.exe
+#Audio Codec Model ID
+ID_MODEL_ID=29c3, Yaesu dx10
+ID_MODEL_ID=29b3, Yaesu SCU 17
+#See HW device, C0 and C3 align with aplay -l card num
+riley@hamey:~/git/winlinkauto/examples$ ls -l /dev/snd/by-id/
+total 0
+lrwxrwxrwx 1 root root 12 Jul 15 10:48 usb-BurrBrown_from_Texas_Instruments_USB_AUDIO_CODEC-00 -> ../controlC0, dx10
+lrwxrwxrwx 1 root root 12 Jul 15 21:23 usb-Burr-Brown_from_TI_USB_Audio_CODEC-00 -> ../controlC3, scu17
+
+#Serial info:
+riley@hamey:~/git/winlinkauto/examples$ ls -l /dev/serial/by-id/
+total 0
+lrwxrwxrwx 1 root root 13 Jul 15 10:49 usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_00E410A1-if00-port0 -> ../../ttyUSB3
+lrwxrwxrwx 1 root root 13 Jul 15 10:49 usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_00E410A1-if01-port0 -> ../../ttyUSB4
+lrwxrwxrwx 1 root root 13 Jul 15 10:48 usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_00F8CDC9-if00-port0 -> ../../ttyUSB1
+lrwxrwxrwx 1 root root 13 Jul 15 10:48 usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_00F8CDC9-if01-port0 -> ../../ttyUSB2
+riley@hamey:~/git/winlinkauto/examples$ lsusb -v -s 1:96 | grep -i a1
+Couldn't open device, some information will be missing
+  iSerial                 5 00E410A1
 

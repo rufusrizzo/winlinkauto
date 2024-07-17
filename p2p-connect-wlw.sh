@@ -6,7 +6,7 @@
 if [[ $1 == "help" || $1 == "--help" || $1 == "-help" || $1 == "-h" ]] 
 	then
 		echo
-		echo "Usage: $0 <Your Name> <Your City> <NOTUNE, if you want to disable tuning betwenn bands>"
+		echo "Usage: $0 <Your Name> <Your City> <NOTUNE, if you want to disable tuning between bands>"
 		echo
 		exit
 fi

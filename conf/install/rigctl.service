@@ -7,9 +7,11 @@ Type=simple
 User=winlinkauto
 Group=winlinkauto
 ExecStart=bash -c "/usr/local/bin/winlinkauto/rigctl.sh"
-StandardOutput=file:/var/log/winlinkauto/rigctl.log
-StandardError=file:/var/log/winlinkauto/rigctl.log
 Restart=always
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=rigctl
+
 
 [Install]
 WantedBy=multi-user.target
