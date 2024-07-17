@@ -1,0 +1,27 @@
+riley@hamey:~/git/winlinkauto/examples$ pat connect ax25+agwpe:///N4HRS-1
+2023/12/13 12:29:54 Unable to get frequency from rig X6100: dial tcp [::1]:4532: connect: connection refused.
+2023/12/13 12:29:55 AGWPE TNC (2005.127) initialized
+2023/12/13 12:29:55 Connecting to N4HRS-1 (ax25+agwpe)...
+2023/12/13 12:29:57 Connected to N4HRS-1 (AX.25)
+^C2023/12/13 12:30:14 Got abort signal, disconnecting...
+2023/12/13 12:30:16 Exchange failed: connection lost
+riley@hamey:~/git/winlinkauto/examples$ pat connect ax25+agwpe:///KO4CTF-10
+2023/12/13 12:30:29 Unable to get frequency from rig X6100: dial tcp [::1]:4532: connect: connection refused.
+2023/12/13 12:30:29 AGWPE TNC (2005.127) initialized
+2023/12/13 12:30:29 Connecting to KO4CTF-10 (ax25+agwpe)...
+2023/12/13 12:30:33 Connected to KO4CTF-10 (AX.25)
+KO4CTF-10 Augusta County VHF Gateway
+[WL2K-5.0-B2FWIHJM$]
+;PQ: 42231578
+CMS via KO4CTF >
+>FC EM B4IUW47OZVIO 259 216 0
+Sending checksum 62
+FS Y
+Remote accepted B4IUW47OZVIO
+Transmitting [test n4hrs GW] [offset 0]
+test n4hrs GW: 100%
+FF
+>FQ
+2023/12/13 12:30:50 Disconnected.
+riley@hamey:~/git/winlinkauto/examples$ 
+
