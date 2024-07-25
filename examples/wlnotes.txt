@@ -31,6 +31,7 @@ tmux new-session -s winlinkauto2 -t winlinkauto
 ./pat-sender.sh n "GLAWN CHECKIN HF" "KF4EMZ, Riley, Waynesboro, Augusta, VA, USA" "KB8RCR, riley@netandnix.net"
 #VARA
 wine ~/.wine/drive_c/VARA\ FM/VARAFM.exe
+pat connect varafm:///WA4TFZ-10
 #Audio Codec Model ID
 ID_MODEL_ID=29c3, Yaesu dx10
 ID_MODEL_ID=29b3, Yaesu SCU 17

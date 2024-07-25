@@ -1,0 +1,5 @@
+%winlinkauto ALL= NOPASSWD: /bin/systemctl restart ardop.service
+%winlinkauto ALL= NOPASSWD: /bin/systemctl restart direwolf.service
+%winlinkauto ALL= NOPASSWD: /bin/systemctl restart rigctl.service
+%winlinkauto ALL= NOPASSWD: /bin/systemctl restart pat.service
+

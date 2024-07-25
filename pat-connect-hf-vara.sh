@@ -40,7 +40,7 @@ then
 else
 	echo "No Gateways defined"
 	echo "Getting them"
-	pat-gen-stationlist.sh
+	./pat-gen-stationlist.sh
 	shuf $gwldir/v${band}m.txt | sed 's/VARA 500/VARA_500/g' | sed 's/VARA 2750/VARA_2750/g' > ${station_list_all}  
 fi
 #If Skip Good Gateways is set, this will filter them out
@@ -90,6 +90,8 @@ fi
 case $band in
 
 	10 ) echo "F 28126000" | nc -w 1 localhost 4532
+	;;
+	15 ) echo "F 21046000" | nc -w 1 localhost 4532
 	;;
 	20 ) echo "F 14107000" | nc -w 1 localhost 4532
 	;;
