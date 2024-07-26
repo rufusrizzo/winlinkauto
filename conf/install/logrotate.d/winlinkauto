@@ -1,22 +1,24 @@
 /var/log/winlinkauto/*.log
 /var/log/winlinkauto/direwolf/*.log
-/var/log/winlinkauto/ardop*.log
+/var/log/winlinkauto/ardop/*.log
 {
 	rotate 4
-	weekly
+	su winlinkauto winlinkauto
+	daily
 	missingok
 	notifempty
 	compress
 	delaycompress
 	sharedscripts
 	postrotate
-        /bin/systemctl restart ardop.service
-        /bin/echo "`date` Logrotate Completed" >> /var/log/winlinkauto/ardop.log
-        /bin/systemctl restart rigctl.service
-        /bin/echo "`date` Logrotate Completed" >> /var/log/winlinkauto/rigctl.log
-        /bin/systemctl restart pat.service
-        /bin/echo "`date` Logrotate Completed" >> /var/log/winlinkauto/pat.log
-        /bin/systemctl restart direwolf.service
-        /bin/echo "`date` Logrotate Completed" >> /var/log/winlinkauto/direwolf.log
+        /usr/bin/sudo /bin/systemctl restart ardop.service
+        /bin/echo "`date` Logrotate Completed########################" >> /var/log/winlinkauto/ardop.log
+        /usr/bin/sudo /bin/systemctl restart rigctl.service
+        /bin/echo "`date` Logrotate Completed########################" >> /var/log/winlinkauto/rigctl.log
+        /usr/bin/sudo /bin/systemctl restart pat.service
+        /bin/echo "`date` Logrotate Completed########################" >> /var/log/winlinkauto/pat.log
+        /usr/bin/sudo /bin/systemctl restart direwolf.service
+        /bin/echo "`date` Logrotate Completed########################" >> /var/log/winlinkauto/direwolf.log
+        /usr/bin/sudo /bin/systemctl restart rsyslog.service
 	endscript
 }
