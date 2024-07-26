@@ -35,7 +35,7 @@ The basics of these scripts are to get a list of RMS gateways and automatically 
 - [ ] SWR monitor process
 - [ ] Add P2P scripts
 - [X] Add P2P scripts, Winlink Wed
-- [ ] Need to rank the Good GWs based on successful sends
+- [X] Need to rank the Good GWs based on successful sends
 - [ ] Need to rank the Good GWs based on successful send times and the current time
 - [X] Generate GWs from good connections bearing
 - [ ] Generate GWs from good connections distance
