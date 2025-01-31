@@ -38,6 +38,12 @@ then
 exit
 fi
 
+if [[ $wlw == "wv" ]]
+then
+	printf "$mycall, $name, $location (VHF)" | pat compose --from $mycall --subject "West Virginia Winlink Check-In" WV8MT "$second_addr"
+exit
+fi
+
 if [[ $wlw == "n" ]]
 then
 	printf "$message `date`" | pat compose --from $mycall --subject "$subject" $mycall "$second_addr"

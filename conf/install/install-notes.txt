@@ -11,3 +11,8 @@ for i in `cat dir-list.txt` ; do mkdir $i ; chown winlinkauto:winlinkauto $i ; d
   536  for i in rigctl pat direwolf ardop ; do systemctl enable $i.service ; systemctl daemon-reload ; service $i status ; done 
 sudo -u riley mkdir -p  /home/riley/.config/pat
 copy pat config
+
+#Install golang before installing Pat, you should use this latest.
+go install github.com/la5nta/pat@latest
+sudo ln -s /home/riley/go/bin/pat /usr/bin/pat
+
