@@ -51,4 +51,6 @@ lrwxrwxrwx 1 root root 13 Jul 15 10:48 usb-Silicon_Labs_CP2105_Dual_USB_to_UART_
 riley@hamey:~/git/winlinkauto/examples$ lsusb -v -s 1:96 | grep -i a1
 Couldn't open device, some information will be missing
   iSerial                 5 00E410A1
-
+#VHF WLW send:
+./pat-sender-vhf.sh y "Riley, Waynesboro, Augusta, VA, USA" "47 clear local"  riley@netandnix.net
+pat connect ax25+agwpe:///WA4TFZ-10
